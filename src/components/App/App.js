@@ -1,108 +1,146 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InputSection from "../InputSection/InputSection";
+import { stringUpdater, arrayUpdater } from "../../utils/consts";
 import "../../vendor/normalize.css";
 import "./App.css";
 
 function App() {
   const [isScriptRunned, setScriptRunned] = useState(false);
+  const [isDataInputed, setDataInputed] = useState(false);
   const [namesArray, setNamesArray] = useState([]);
+  const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
-  const [temporaryArray, setTemporaryArray] = useState([]);
   const [tablesArray, setTablesArray] = useState([1]);
-  const [notNullIndexes, setNotNullIndexes] = [];
-  const [namesSelectValue, setNamesSelectValue] = useState("");
-  const [dataSelectValue, setDataSelectValue] = useState("");
   const [fullLength, setFullLength] = useState(NaN);
+  const [dataSelectValue, setDataSelectValue] = useState("");
+  const [namesSelectValue, setNamesSelectValue] = useState("");
 
-  useEffect(() => {
-    if (dataSelectValue !== "") {
-      const tmp = input1.split(`\n`);
+  function arrayLengthStabilizate(q) {
+    const columnsQ = q;
+    const array = dataArray.slice();
+    array.forEach((arr, index) => {
+      let diff;
+
+      if (arr.length < columnsQ) {
+        diff = columnsQ - arr.length;
+
+        for (let i = 0; i < diff; i++) {
+          array[index].push("");
+        }
+      }
+
+      if (arr.length > columnsQ) {
+        diff = arr.length - columnsQ;
+
+        for (let i = 0; i < diff; i++) {
+          array[index].pop();
+        }
+      }
+    });
+    setDataArray(array);
+    const full = array.flat();
+    setFullLength(full.length);
+  }
+
+  function setData(val) {
+    if (!isDataInputed) {
+      const currentVal = stringUpdater(val);
+      setDataSelectValue(currentVal);
+      const tmp = currentVal.split(/\r\n|\r|\n/g);
+
       if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
         tmp.pop();
       }
-      setTemporaryArray(tmp);
+
+      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
+        tmp.pop();
+      }
       const tmpDataArr = [];
-      temporaryArray.forEach((i) => {
+      tmp.forEach((i) => {
         const arr = i.split(",");
-        arr.pop();
         tmpDataArr.push(arr);
       });
       setDataArray(tmpDataArr);
-      setFullLength(tmpDataArr.flat().length);
+      setDataInputed(true);
     }
-  }, [dataSelectValue]);
+  }
 
-  useEffect(() => {
-    if (namesSelectValue !== "") {
-      const tmp = input2.split(`\n`);
-      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
-        tmp.pop();
-      }
-      setNamesArray(tmp);
-      console.log(namesArray);
+  function setNames(val) {
+    if (namesSelectValue === "") {
+      setNamesSelectValue(val);
     }
-  }, [namesSelectValue]);
 
-  function arrayUpdater(array) {
-    const arrayUpdate = array.map((i, ind) => {
-      if (notNullIndexes.includes(ind)) {
-        return i;
-      }
-    });
-    console.log(arrayUpdate);
-    return arrayUpdate;
+    if (val[val.length - 1].length === 1 && val[0].length > 1) {
+      val.pop();
+    }
+    setNamesArray(val);
+    arrayLengthStabilizate(val.length);
   }
 
   function script() {
-    const stringLength = fullLength / temporaryArray.length;
-    for (let i = 0; i < stringLength; i++) {
+    const stringLength = fullLength / namesArray.length;
+    const tmp = [];
+
+    for (let k = 0; k < namesArray.length; k++) {
       let tmpArr = [];
-      for (k = 0; k < temporaryArray.length; k++) {
-        tmpArr.push(dataArray[k][i]);
+
+      for (let i = 0; i < stringLength; i++) {
+        tmpArr.push(dataArray[i][k]);
       }
-      console.log(tmpArr, tmpArr, i);
-      if (tmpArr[i].every !== "") {
-        const tmp = notNullIndexes;
-        tmp.push(i);
-        setNotNullIndexes(tmp);
+
+      if (!tmpArr.every((el) => el === "")) {
+        tmp.push(k);
       }
-      setScriptRunned(false)
+      setScriptRunned(false);
     }
-    const arr2upd = arrayUpdater(arr2);
-    console.log(arr2);
-    const arr1upd = dataArray.map((i) => arrayUpdater(i));
-    console.log(dataArray);
+    const arr2upd = arrayUpdater(namesArray, tmp);
+    const arr1upd = dataArray.map((i) => arrayUpdater(i, tmp));
     const res = [arr2upd, ...arr1upd];
-    console.log(res);
+    setResult(res.filter((i) => !i.every((k) => k === "")));
+    setScriptRunned(true);
   }
 
   return !isScriptRunned ? (
     <>
-      <section>
-        <label htmlFor="data_input">Вставьте данные</label>
-        <input
-          type="text"
-          id="data_input"
-          name="data_input"
-          placeholder="Вставьте данные"
-          value={dataSelectValue}
-          onChange={(e) => setDataSelectValue(e.target.value)}
-        />
-      </section>
+      {!isDataInputed ? (
+        <section>
+          <label htmlFor="data_input">Вставьте данные</label>
+          <input
+            type="text"
+            id="data_input"
+            name="data_input"
+            placeholder="Вставьте данные"
+            value={dataSelectValue}
+            onChange={(e) => setData(e.target.value)}
+          />
+        </section>
+      ) : (
+        <p>Данные приняты</p>
+      )}
       {tablesArray.map((i) => (
         <InputSection
           key={`input_section-${Math.pow(i, i)}`}
           tablesArray={tablesArray}
           setTablesArray={setTablesArray}
           namesSelectValue={namesSelectValue}
-          setNamesSelectValue={setNamesSelectValue}
+          setNamesSelectValue={setNames}
           index={i}
         />
       ))}
       <button onClick={script}>Run</button>
     </>
   ) : (
-    <></>
+    <table>
+      <tbody>
+        {result.map((row, ind) => (
+          <tr key={`row-${ind}`}>
+            {row.map((cell, index) => (
+              <td key={`cell-${index}`}>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

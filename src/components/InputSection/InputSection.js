@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { stringUpdater } from "../../utils/consts";
 import "./InputSection.css";
 
 function InputSection(props) {
@@ -6,24 +7,31 @@ function InputSection(props) {
   const [selectValue, setSelectValue] = useState(0);
   const baseData = props.namesSelectValue;
 
-  function updateParentData() {
+  function updateParentData(arg) {
     const oldData = baseData.slice();
-    const tmp = dataSelectValue.split(`\n`);
-    if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
-      tmp.pop();
+    let newData = [...oldData];
+    let tmp = [];
+
+    if (arg) {
+      const currentVal = stringUpdater(arg);
+      tmp = currentVal.split(/\r\n|\r|\n/g);
+
+      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
+        tmp.pop();
+      }
     }
-    let newData = [];
+
     if (selectValue > 0) {
       newData = [...tmp, ...oldData];
     } else {
       newData = [...oldData, ...tmp];
     }
-    setNamesSelectValue(newData);
+    props.setNamesSelectValue(newData);
   }
 
   function setInputData(e) {
     setDataSelectValue(e.target.value);
-    updateParentData();
+    updateParentData(e.target.value);
   }
 
   function setSelectData(e) {
