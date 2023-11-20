@@ -1,0 +1,31 @@
+table {
+  width: max-content;
+  border-collapse: collapse;
+  border: 1px solid var(--gap-color);
+  overflow: scroll;
+}
+
+tbody {
+  width: max-content;
+}
+
+td {
+  height: 3vh;
+  padding: 0.25em;
+  border: 1px solid var(--bg-color);
+  text-align: center;
+  text-transform: capitalize;
+  background: linear-gradient(
+    170deg,
+    var(--gap-color) 20%,
+    #fff 25%,
+    #fff 75%,
+    var(--gap-color) 80%
+  );
+}
+
+img {
+  width: 1em;
+  margin-left: 0.25em;
+  cursor: pointer;
+}

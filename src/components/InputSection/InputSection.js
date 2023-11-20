@@ -5,9 +5,11 @@ import "./InputSection.css";
 function InputSection(props) {
   const [dataSelectValue, setDataSelectValue] = useState("");
   const [selectValue, setSelectValue] = useState(0);
+  const [tmpArray, setTmpArray] = useState(0);
   const baseData = props.namesSelectValue;
 
-  function updateParentData(arg) {
+  function updateParentData(data) {
+    const { arg, point } = data;
     const oldData = baseData.slice();
     let newData = [...oldData];
     let tmp = [];
@@ -15,13 +17,17 @@ function InputSection(props) {
     if (arg) {
       const currentVal = stringUpdater(arg);
       tmp = currentVal.split(/\r\n|\r|\n/g);
+      setTmpArray(tmp);
 
       if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
         tmp.pop();
+        setTmpArray(tmp);
       }
+    } else {
+      tmp = tmpArray.slice();
     }
 
-    if (selectValue > 0) {
+    if ((arg && selectValue > 0) || point > 0) {
       newData = [...tmp, ...oldData];
     } else {
       newData = [...oldData, ...tmp];
@@ -31,12 +37,12 @@ function InputSection(props) {
 
   function setInputData(e) {
     setDataSelectValue(e.target.value);
-    updateParentData(e.target.value);
+    updateParentData({ arg: e.target.value });
   }
 
   function setSelectData(e) {
     setSelectValue(e.target.value);
-    updateParentData();
+    updateParentData({ point: e.target.value });
   }
 
   function addSection() {

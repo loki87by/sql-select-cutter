@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import InputSection from "../InputSection/InputSection";
-import { stringUpdater, arrayUpdater } from "../../utils/consts";
+import Table from "../Table/Table";
+import {
+  stringUpdater,
+  stringSplitter,
+  arrayUpdater,
+} from "../../utils/consts";
 import "../../vendor/normalize.css";
 import "./App.css";
 
@@ -57,7 +62,7 @@ function App() {
       }
       const tmpDataArr = [];
       tmp.forEach((i) => {
-        const arr = i.split(",");
+        const arr = stringSplitter(i);
         tmpDataArr.push(arr);
       });
       setDataArray(tmpDataArr);
@@ -102,21 +107,23 @@ function App() {
 
   return !isScriptRunned ? (
     <>
-      {!isDataInputed ? (
-        <section>
-          <label htmlFor="data_input">Вставьте данные</label>
-          <input
-            type="text"
-            id="data_input"
-            name="data_input"
-            placeholder="Вставьте данные"
-            value={dataSelectValue}
-            onChange={(e) => setData(e.target.value)}
-          />
-        </section>
-      ) : (
-        <p>Данные приняты</p>
-      )}
+      <section>
+        {!isDataInputed ? (
+            <article>
+              <label htmlFor="data_input">Вставьте данные </label>
+              <input
+                type="text"
+                id="data_input"
+                name="data_input"
+                placeholder="Вставьте данные"
+                value={dataSelectValue}
+                onChange={(e) => setData(e.target.value)}
+              />
+            </article>
+        ) : (
+          <p>Данные приняты</p>
+        )}
+      </section>
       {tablesArray.map((i) => (
         <InputSection
           key={`input_section-${Math.pow(i, i)}`}
@@ -127,20 +134,12 @@ function App() {
           index={i}
         />
       ))}
-      <button onClick={script}>Run</button>
+      <button className="main_button" onClick={script}>
+        Run
+      </button>
     </>
   ) : (
-    <table>
-      <tbody>
-        {result.map((row, ind) => (
-          <tr key={`row-${ind}`}>
-            {row.map((cell, index) => (
-              <td key={`cell-${index}`}>{cell}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table data={result} />
   );
 }
 
