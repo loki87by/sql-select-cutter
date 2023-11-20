@@ -16,7 +16,8 @@ function InputSection(props) {
 
     if (arg) {
       const currentVal = stringUpdater(arg);
-      tmp = currentVal.split(/\r\n|\r|\n/g);
+      // eslint-disable-next-line no-useless-escape
+      tmp = currentVal.split(/\,?\r\n|\,?\r|\,?\n/g);
       setTmpArray(tmp);
 
       if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
@@ -51,7 +52,7 @@ function InputSection(props) {
   }
 
   return (
-    <section>
+    <article>
       <label htmlFor={`names_${props.index}_input`}>
         Вставьте имена столбцов
       </label>
@@ -74,7 +75,7 @@ function InputSection(props) {
       <button type="button" onClick={addSection}>
         добавить столбцы
       </button>
-    </section>
+    </article>
   );
 }
 

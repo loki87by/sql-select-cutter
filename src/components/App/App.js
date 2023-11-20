@@ -106,38 +106,42 @@ function App() {
   }
 
   return !isScriptRunned ? (
-    <>
-      <section>
-        {!isDataInputed ? (
-            <article>
-              <label htmlFor="data_input">Вставьте данные </label>
-              <input
-                type="text"
-                id="data_input"
-                name="data_input"
-                placeholder="Вставьте данные"
-                value={dataSelectValue}
-                onChange={(e) => setData(e.target.value)}
-              />
-            </article>
-        ) : (
+    <section>
+      {!isDataInputed ? (
+        <article>
+          <label htmlFor="data_input">Вставьте данные </label>
+          <input
+            type="text"
+            id="data_input"
+            name="data_input"
+            placeholder="Вставьте данные"
+            value={dataSelectValue}
+            onChange={(e) => setData(e.target.value)}
+          />
+        </article>
+      ) : (
+        <>
           <p>Данные приняты</p>
-        )}
-      </section>
-      {tablesArray.map((i) => (
-        <InputSection
-          key={`input_section-${Math.pow(i, i)}`}
-          tablesArray={tablesArray}
-          setTablesArray={setTablesArray}
-          namesSelectValue={namesSelectValue}
-          setNamesSelectValue={setNames}
-          index={i}
-        />
-      ))}
-      <button className="main_button" onClick={script}>
-        Run
-      </button>
-    </>
+          {tablesArray.map((i) => (
+            <InputSection
+              key={`input_section-${Math.pow(i, i)}`}
+              index={i}
+              tablesArray={tablesArray}
+              namesSelectValue={namesSelectValue}
+              setTablesArray={setTablesArray}
+              setNamesSelectValue={setNames}
+            />
+          ))}
+          <button
+            className="main_button"
+            disabled={namesArray.length === 0}
+            onClick={script}
+          >
+            Run
+          </button>
+        </>
+      )}
+    </section>
   ) : (
     <Table data={result} />
   );

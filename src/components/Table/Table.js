@@ -25,10 +25,6 @@ function Table(props) {
     });
   }
 
-  /* const copyToClipboard = useCallback(() => {
-
-  }, [clipboard, orderId]); */
-
   return (
     <table>
       <tbody>

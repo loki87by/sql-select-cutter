@@ -1,38 +1,45 @@
 export function stringUpdater(str) {
-  return str.replace(/('[^']*')|("[^"]*")|(\([^)]*\))|(\{[^}]*\})|\s/g, (match, p1, p2, p3, p4) => {
-    if (p1 || p2 || p3 || p4) {
-      return match;
-    } else {
-      return '\n';
+  return str.replace(
+    /('[^']*')|("[^"]*")|(\([^)]*\))|(\{[^}]*\})|\s/g,
+    (match, p1, p2, p3, p4) => {
+      if (p1 || p2 || p3 || p4) {
+        return match;
+      } else {
+        return "\n";
+      }
     }
-  });
+  );
 }
 
 export function stringSplitter(str) {
-  const separator = ','
+  const separator = ",";
   let insideQuotes = false;
   let insideBrackets = 0;
   let insideCurlyBraces = 0;
   let result = [];
-  let currentPiece = '';
+  let currentPiece = "";
 
   for (let i = 0; i < str.length; i++) {
-
     if (str[i] === "'" || str[i] === '"') {
       insideQuotes = !insideQuotes;
-    } else if (str[i] === '[' && !insideQuotes) {
+    } else if (str[i] === "[" && !insideQuotes) {
       insideBrackets++;
-    } else if (str[i] === ']' && !insideQuotes) {
+    } else if (str[i] === "]" && !insideQuotes) {
       insideBrackets--;
-    } else if (str[i] === '{' && !insideQuotes) {
+    } else if (str[i] === "{" && !insideQuotes) {
       insideCurlyBraces++;
-    } else if (str[i] === '}' && !insideQuotes) {
+    } else if (str[i] === "}" && !insideQuotes) {
       insideCurlyBraces--;
     }
 
-    if (str[i] === separator && !insideQuotes && insideBrackets === 0 && insideCurlyBraces === 0) {
+    if (
+      str[i] === separator &&
+      !insideQuotes &&
+      insideBrackets === 0 &&
+      insideCurlyBraces === 0
+    ) {
       result.push(currentPiece);
-      currentPiece = '';
+      currentPiece = "";
     } else {
       currentPiece += str[i];
     }
