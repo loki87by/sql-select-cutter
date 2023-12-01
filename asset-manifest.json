@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/sql-select-cutter/static/css/main.adf2ac6d.chunk.css",
-    "main.js": "/sql-select-cutter/static/js/main.9fb78b1d.chunk.js",
-    "main.js.map": "/sql-select-cutter/static/js/main.9fb78b1d.chunk.js.map",
+    "main.css": "/sql-select-cutter/static/css/main.85c13970.chunk.css",
+    "main.js": "/sql-select-cutter/static/js/main.529e2137.chunk.js",
+    "main.js.map": "/sql-select-cutter/static/js/main.529e2137.chunk.js.map",
     "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.2e9b30e7.js",
     "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.2e9b30e7.js.map",
     "static/js/2.b8f642f1.chunk.js": "/sql-select-cutter/static/js/2.b8f642f1.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.653c162f.chunk.js": "/sql-select-cutter/static/js/3.653c162f.chunk.js",
     "static/js/3.653c162f.chunk.js.map": "/sql-select-cutter/static/js/3.653c162f.chunk.js.map",
     "index.html": "/sql-select-cutter/index.html",
-    "static/css/main.adf2ac6d.chunk.css.map": "/sql-select-cutter/static/css/main.adf2ac6d.chunk.css.map",
+    "static/css/main.85c13970.chunk.css.map": "/sql-select-cutter/static/css/main.85c13970.chunk.css.map",
     "static/js/2.b8f642f1.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.b8f642f1.chunk.js.LICENSE.txt",
     "static/media/copy.067cf7a4.svg": "/sql-select-cutter/static/media/copy.067cf7a4.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.2e9b30e7.js",
     "static/js/2.b8f642f1.chunk.js",
-    "static/css/main.adf2ac6d.chunk.css",
-    "static/js/main.9fb78b1d.chunk.js"
+    "static/css/main.85c13970.chunk.css",
+    "static/js/main.529e2137.chunk.js"
   ]
 }
