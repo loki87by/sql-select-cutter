@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import InputSection from "../InputSection/InputSection";
+import Alias from "../Alias/Alias";
 import Table from "../Table/Table";
-import { stringUpdater, arrayUpdater } from "../../utils/consts";
+import {
+  stringUpdater,
+  arrayUpdater,
+  arrayLengthStabilizate,
+} from "../../utils/consts";
 import "../../vendor/normalize.css";
 import "./App.css";
 
@@ -11,45 +15,67 @@ function App() {
   const [namesArray, setNamesArray] = useState([]);
   const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
-  const [tablesArray, setTablesArray] = useState([1]);
-  const [dataSelectValue, setDataSelectValue] = useState([]);
-  const [namesSelectValue, setNamesSelectValue] = useState([]);
+  //const [tablesArray, setTablesArray] = useState([1]);
+  const [dataSelectValue, setDataSelectValue] = useState("");
+  const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
+  const [namesInputed, setNamesInputed] = useState(false);
+  const [fullTables, setFullTables] = useState([]);
+  //const [aliases, setAliases] = useState([]);
+  const [fullTablesIsEmpty, setFullTablesIsEmpty] = useState(true);
 
-  function arrayLengthStabilizate(q, arr) {
-    const columnsQ = q;
-    let array = [];
-    if (arr.length === columnsQ) {
-      array.push(arr);
-    } else {
-      for (let i = 1; i <= arr.length / columnsQ; i++) {
-        const tmp = [];
-        arr.forEach((item, ind) => {
-          if (ind < columnsQ * i && ind >= columnsQ * (i - 1)) {
-            tmp.push(item);
-          }
-        });
-        array.push(tmp);
+  function checkFullTables(str) {
+    const alls = str.match(/\S+\.\*/gi);
+    //setAliases(alls)
+    setFullTablesIsEmpty(false);
+    const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
+    const array = alls.map((element) => {
+      const cur = element.replace(/\.\*$/, "");
+      const arr = tables.split(" ");
+      const index = arr.findIndex((el) => el === cur);
+      return arr[index - 1];
+    });
+    setFullTables(array);
+    console.log(array);
+  }
+
+  const selectCutter = (data) => {
+    const select = data
+      .toLowerCase()
+      .replace(/select\s*/, "")
+      .replace(/\s*from\s[\s\S]*/, "");
+    const string = select.replace(/( +)|(\n)/g, (match, p1, p2) => {
+      if (p1) {
+        return " ";
+      } else if (p2) {
+        return "\n";
+      } else {
+        return match;
       }
-    }
+    });
+    const array = string.split(/,\s/g);
+    const res = array.map((i) => {
+      return i.replace(/^\S*\s/, "");
+    });
+    return res;
+  };
 
-    return array;
+  function setInputData(e) {
+    const arg = e.target.value;
+    setNamesDataSelectValue(arg);
+    checkFullTables(arg);
+    let tmp = selectCutter(arg);
+    let newData = [...tmp];
+    setNamesArray(newData);
+    setNamesInputed(true);
   }
 
   function setData(val) {
     if (!isDataInputed) {
       const currentVal = stringUpdater(val);
-      setDataSelectValue(currentVal);
+      setDataSelectValue(val);
       setDataInputed(true);
       setDataArray(currentVal);
     }
-  }
-
-  function setNames(val) {
-    if (namesSelectValue.length > 0) {
-      setNamesSelectValue(val);
-    }
-
-    setNamesArray(val);
   }
 
   function dataUpdater(arr) {
@@ -115,19 +141,29 @@ function App() {
       ) : (
         <>
           <p>Данные приняты</p>
-          {tablesArray.map((i) => (
-            <InputSection
-              key={`input_section-${Math.pow(i, i)}`}
-              index={i}
-              tablesArray={tablesArray}
-              namesSelectValue={namesSelectValue}
-              setTablesArray={setTablesArray}
-              setNamesSelectValue={setNames}
-            />
-          ))}
+          {!namesInputed ? (
+            <article>
+              <label htmlFor={`names_input`}>Вставьте SQL-запрос</label>
+              <input
+                type="text"
+                id={`names_input`}
+                name={`names_input`}
+                placeholder="Вставьте имена столбцов"
+                value={namesDataSelectValue}
+                onChange={setInputData}
+              />
+            </article>
+          ) : (
+            <p>Данные приняты</p>
+          )}
+          {!fullTablesIsEmpty
+            ? fullTables.map((item, index) => (
+                <Alias key={`alias-${index}`} data={item} />
+              ))
+            : ""}
           <button
             className="main_button"
-            disabled={namesArray.length === 0}
+            disabled={fullTablesIsEmpty === true && namesArray.length === 0}
             onClick={script}
           >
             Run

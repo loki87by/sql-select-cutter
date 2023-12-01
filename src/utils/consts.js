@@ -45,6 +45,8 @@ export function arrayUpdater(array, notNullIndexes) {
 }
 
 export const selectCutter = (data) => {
+  const alls = data.match(/\S+\.\*/gi)
+  console.log(alls)
   const select = data
     .toLowerCase()
     .replace(/select\s*/, "")
@@ -64,3 +66,25 @@ export const selectCutter = (data) => {
   });
   return res;
 };
+
+export function arrayLengthStabilizate(q, arr) {
+  const columnsQ = q;
+  let array = [];
+  if (arr.length === columnsQ) {
+    array.push(arr);
+  } else {
+    for (let i = 1; i <= arr.length / columnsQ; i++) {
+      const tmp = [];
+      arr.forEach((item, ind) => {
+        if (ind < columnsQ * i && ind >= columnsQ * (i - 1)) {
+          tmp.push(item);
+        }
+      });
+      array.push(tmp);
+    }
+  }
+  return array;}
+
+export const query = `SELECT column_name
+FROM USER_TAB_COLUMNS
+WHERE table_name = `
