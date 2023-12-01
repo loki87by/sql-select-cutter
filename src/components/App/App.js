@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import InputSection from "../InputSection/InputSection";
 import Table from "../Table/Table";
-import {
-  stringUpdater,
-  stringSplitter,
-  arrayUpdater,
-} from "../../utils/consts";
+import { stringUpdater, arrayUpdater } from "../../utils/consts";
 import "../../vendor/normalize.css";
 import "./App.css";
 
@@ -16,92 +12,89 @@ function App() {
   const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
   const [tablesArray, setTablesArray] = useState([1]);
-  const [fullLength, setFullLength] = useState(NaN);
-  const [dataSelectValue, setDataSelectValue] = useState("");
-  const [namesSelectValue, setNamesSelectValue] = useState("");
+  const [dataSelectValue, setDataSelectValue] = useState([]);
+  const [namesSelectValue, setNamesSelectValue] = useState([]);
 
-  function arrayLengthStabilizate(q) {
+  function arrayLengthStabilizate(q, arr) {
     const columnsQ = q;
-    const array = dataArray.slice();
-    array.forEach((arr, index) => {
-      let diff;
-
-      if (arr.length < columnsQ) {
-        diff = columnsQ - arr.length;
-
-        for (let i = 0; i < diff; i++) {
-          array[index].push("");
-        }
+    let array = [];
+    if (arr.length === columnsQ) {
+      array.push(arr);
+    } else {
+      for (let i = 1; i <= arr.length / columnsQ; i++) {
+        const tmp = [];
+        arr.forEach((item, ind) => {
+          if (ind < columnsQ * i && ind >= columnsQ * (i - 1)) {
+            tmp.push(item);
+          }
+        });
+        array.push(tmp);
       }
+    }
 
-      if (arr.length > columnsQ) {
-        diff = arr.length - columnsQ;
-
-        for (let i = 0; i < diff; i++) {
-          array[index].pop();
-        }
-      }
-    });
-    setDataArray(array);
-    const full = array.flat();
-    setFullLength(full.length);
+    return array;
   }
 
   function setData(val) {
     if (!isDataInputed) {
       const currentVal = stringUpdater(val);
       setDataSelectValue(currentVal);
-      const tmp = currentVal.split(/\r\n|\r|\n/g);
-
-      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
-        tmp.pop();
-      }
-
-      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
-        tmp.pop();
-      }
-      const tmpDataArr = [];
-      tmp.forEach((i) => {
-        const arr = stringSplitter(i);
-        tmpDataArr.push(arr);
-      });
-      setDataArray(tmpDataArr);
       setDataInputed(true);
+      setDataArray(currentVal);
     }
   }
 
   function setNames(val) {
-    if (namesSelectValue === "") {
+    if (namesSelectValue.length > 0) {
       setNamesSelectValue(val);
     }
 
-    if (val[val.length - 1].length === 1 && val[0].length > 1) {
-      val.pop();
-    }
     setNamesArray(val);
-    arrayLengthStabilizate(val.length);
+  }
+
+  function dataUpdater(arr) {
+    const first = arr[0];
+    const array = [];
+    arr.forEach((i, ind) => {
+      if (
+        ind % (namesArray.length - 1) === 0 &&
+        ind !== 0 &&
+        ind !== arr.length - 1
+      ) {
+        const curr = i.slice(0, 0 - first.length - 1);
+        const next = i.slice(0 - first.length);
+        array.push(curr);
+        array.push(next);
+      } else {
+        array.push(i);
+      }
+    });
+    return array;
   }
 
   function script() {
-    const stringLength = fullLength / namesArray.length;
+    let data = dataUpdater(dataArray);
+    data = arrayLengthStabilizate(namesArray.length, data);
     const tmp = [];
 
     for (let k = 0; k < namesArray.length; k++) {
       let tmpArr = [];
 
-      for (let i = 0; i < stringLength; i++) {
-        tmpArr.push(dataArray[i][k]);
+      for (let i = 0; i < data.length; i++) {
+        tmpArr.push(data[i][k]);
       }
 
-      if (!tmpArr.every((el) => el === "")) {
+      if (
+        !tmpArr.every((el) => el === null || el === undefined || el === "null")
+      ) {
         tmp.push(k);
       }
       setScriptRunned(false);
     }
     const arr2upd = arrayUpdater(namesArray, tmp);
-    const arr1upd = dataArray.map((i) => arrayUpdater(i, tmp));
+    const arr1upd = data.map((i) => arrayUpdater(i, tmp));
     const res = [arr2upd, ...arr1upd];
-    setResult(res.filter((i) => !i.every((k) => k === "")));
+    setResult(res.filter((i) => !i.every((k) => k === null)));
     setScriptRunned(true);
   }
 

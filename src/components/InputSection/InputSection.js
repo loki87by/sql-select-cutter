@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { stringUpdater } from "../../utils/consts";
+import { selectCutter } from "../../utils/consts";
 import "./InputSection.css";
 
 function InputSection(props) {
   const [dataSelectValue, setDataSelectValue] = useState("");
   const [selectValue, setSelectValue] = useState(0);
-  const [tmpArray, setTmpArray] = useState(0);
   const baseData = props.namesSelectValue;
 
   function updateParentData(data) {
@@ -13,19 +12,8 @@ function InputSection(props) {
     const oldData = baseData.slice();
     let newData = [...oldData];
     let tmp = [];
-
     if (arg) {
-      const currentVal = stringUpdater(arg);
-      // eslint-disable-next-line no-useless-escape
-      tmp = currentVal.split(/\,?\r\n|\,?\r|\,?\n/g);
-      setTmpArray(tmp);
-
-      if (tmp[tmp.length - 1].length === 1 && tmp[0].length > 1) {
-        tmp.pop();
-        setTmpArray(tmp);
-      }
-    } else {
-      tmp = tmpArray.slice();
+      tmp = selectCutter(arg);
     }
 
     if ((arg && selectValue > 0) || point > 0) {

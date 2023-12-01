@@ -1,52 +1,36 @@
+/* eslint-disable no-useless-escape */
+
 export function stringUpdater(str) {
-  return str.replace(
-    /('[^']*')|("[^"]*")|(\([^)]*\))|(\{[^}]*\})|\s/g,
-    (match, p1, p2, p3, p4) => {
-      if (p1 || p2 || p3 || p4) {
-        return match;
-      } else {
-        return "\n";
-      }
-    }
-  );
-}
-
-export function stringSplitter(str) {
-  const separator = ",";
-  let insideQuotes = false;
-  let insideBrackets = 0;
-  let insideCurlyBraces = 0;
-  let result = [];
-  let currentPiece = "";
-
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === "'" || str[i] === '"') {
-      insideQuotes = !insideQuotes;
-    } else if (str[i] === "[" && !insideQuotes) {
-      insideBrackets++;
-    } else if (str[i] === "]" && !insideQuotes) {
-      insideBrackets--;
-    } else if (str[i] === "{" && !insideQuotes) {
-      insideCurlyBraces++;
-    } else if (str[i] === "}" && !insideQuotes) {
-      insideCurlyBraces--;
-    }
-
-    if (
-      str[i] === separator &&
-      !insideQuotes &&
-      insideBrackets === 0 &&
-      insideCurlyBraces === 0
-    ) {
-      result.push(currentPiece);
-      currentPiece = "";
+  const inputString = str.replace(/( +)|(\n+)/g, (match, p1, p2) => {
+    if (p1) {
+      return " ";
+    } else if (p2) {
+      return ", ";
     } else {
-      currentPiece += str[i];
+      return match;
+    }
+  });
+  let result = [];
+  let temp = "";
+  let inTag = false;
+  let inQuotes = false;
+
+  for (let i = 0; i < inputString.length; i++) {
+    if (inputString[i] === "<") {
+      inTag = true;
+    } else if (inputString[i] === ">") {
+      inTag = false;
+    } else if (inputString[i] === '"' && !inTag) {
+      inQuotes = !inQuotes;
+    } else if (inputString[i] === "," && !inTag && !inQuotes) {
+      result.push(temp);
+      temp = "";
+    } else {
+      temp += inputString[i];
     }
   }
-
-  result.push(currentPiece);
-  return result;
+  result.push(temp);
+  return result.map((val) => (val.trim() === "" ? null : val.trim()));
 }
 
 export function arrayUpdater(array, notNullIndexes) {
@@ -59,3 +43,24 @@ export function arrayUpdater(array, notNullIndexes) {
   });
   return arrayUpdate.filter((i) => i !== null);
 }
+
+export const selectCutter = (data) => {
+  const select = data
+    .toLowerCase()
+    .replace(/select\s*/, "")
+    .replace(/\s*from\s[\s\S]*/, "");
+  const string = select.replace(/( +)|(\n)/g, (match, p1, p2) => {
+    if (p1) {
+      return " ";
+    } else if (p2) {
+      return "\n";
+    } else {
+      return match;
+    }
+  });
+  const array = string.split(/,\s/g);
+  const res = array.map((i) => {
+    return i.replace(/^\S*\s/, "");
+  });
+  return res;
+};
