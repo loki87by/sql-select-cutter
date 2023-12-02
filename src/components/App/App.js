@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Alias from "../Alias/Alias";
 import Table from "../Table/Table";
 import {
   stringUpdater,
   arrayUpdater,
+  selectCutter,
   arrayLengthStabilizate,
 } from "../../utils/consts";
 import "../../vendor/normalize.css";
@@ -15,61 +16,57 @@ function App() {
   const [namesArray, setNamesArray] = useState([]);
   const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
-  //const [tablesArray, setTablesArray] = useState([1]);
   const [dataSelectValue, setDataSelectValue] = useState("");
   const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
   const [namesInputed, setNamesInputed] = useState(false);
   const [fullTables, setFullTables] = useState([]);
-  //const [aliases, setAliases] = useState([]);
-  const [fullTablesIsEmpty, setFullTablesIsEmpty] = useState(true);
+  const [aliases, setAliases] = useState([]);
 
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
-    //setAliases(alls)
-    setFullTablesIsEmpty(false);
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
     const array = alls.map((element) => {
       const cur = element.replace(/\.\*$/, "");
       const arr = tables.split(" ");
       const index = arr.findIndex((el) => el === cur);
-      return arr[index - 1];
+
+      return { table: arr[index - 1], alias: cur };
     });
     setFullTables(array);
-    console.log(array);
   }
-
-  const selectCutter = (data) => {
-    const select = data
-      .toLowerCase()
-      .replace(/select\s*/, "")
-      .replace(/\s*from\s[\s\S]*/, "");
-    const string = select.replace(/( +)|(\n)/g, (match, p1, p2) => {
-      if (p1) {
-        return " ";
-      } else if (p2) {
-        return "\n";
-      } else {
-        return match;
-      }
-    });
-    const array = string.split(/,\s/g);
-    const res = array.map((i) => {
-      return i.replace(/^\S*\s/, "");
-    });
-    return res;
-  };
 
   function setInputData(e) {
     const arg = e.target.value;
     setNamesDataSelectValue(arg);
     checkFullTables(arg);
-    let tmp = selectCutter(arg);
-    let newData = [...tmp];
-    setNamesArray(newData);
     setNamesInputed(true);
   }
 
+  useEffect(() => {
+
+    if (fullTables.length === aliases.length) {
+      const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
+        const cur = match.replace(/\.\*$/, "");
+        const table = fullTables.find((i) => i.alias === cur);
+        const coluumns = aliases.find((i) => i.alias === cur).data;
+        const data = coluumns.map((i) => `${table}.${i}`);
+
+        return data;
+      });
+      let tmp = selectCutter(finString);
+      let newData = [...tmp];
+      setNamesArray(newData);
+    }
+  }, [
+    fullTables.length,
+    aliases.length,
+    namesDataSelectValue,
+    fullTables,
+    aliases,
+  ]);
+
   function setData(val) {
+
     if (!isDataInputed) {
       const currentVal = stringUpdater(val);
       setDataSelectValue(val);
@@ -82,6 +79,7 @@ function App() {
     const first = arr[0];
     const array = [];
     arr.forEach((i, ind) => {
+
       if (
         ind % (namesArray.length - 1) === 0 &&
         ind !== 0 &&
@@ -95,6 +93,7 @@ function App() {
         array.push(i);
       }
     });
+
     return array;
   }
 
@@ -128,7 +127,9 @@ function App() {
     <section>
       {!isDataInputed ? (
         <article>
-          <label htmlFor="data_input">Вставьте данные </label>
+          <label htmlFor="data_input">
+            Вставьте данные (результат запроса)
+          </label>
           <input
             type="text"
             id="data_input"
@@ -156,14 +157,20 @@ function App() {
           ) : (
             <p>Данные приняты</p>
           )}
-          {!fullTablesIsEmpty
+          {fullTables.length > 0
             ? fullTables.map((item, index) => (
-                <Alias key={`alias-${index}`} data={item} />
+                <Alias
+                  key={`alias-${index}`}
+                  data={item}
+                  index={index}
+                  aliases={aliases}
+                  setAliases={setAliases}
+                />
               ))
             : ""}
           <button
             className="main_button"
-            disabled={fullTablesIsEmpty === true && namesArray.length === 0}
+            disabled={fullTables.length !== aliases.length}
             onClick={script}
           >
             Run

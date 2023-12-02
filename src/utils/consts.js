@@ -45,8 +45,6 @@ export function arrayUpdater(array, notNullIndexes) {
 }
 
 export const selectCutter = (data) => {
-  const alls = data.match(/\S+\.\*/gi)
-  console.log(alls)
   const select = data
     .toLowerCase()
     .replace(/select\s*/, "")
