@@ -83,6 +83,9 @@ export function arrayLengthStabilizate(q, arr) {
   }
   return array;}
 
-export const query = `SELECT column_name
+export const queryStart = `SELECT column_name
 FROM USER_TAB_COLUMNS
 WHERE table_name = '`
+
+export const queryEnd = `'
+order by column_id;`

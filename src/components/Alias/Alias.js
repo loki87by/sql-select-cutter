@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
-import { query } from "../../utils/consts";
+import { queryStart, queryEnd } from "../../utils/consts";
 import copy from "../../assets/copy.svg";
 import "./Alias.css";
 
 function Alias(props) {
   const [isDataInputed, setDataInputed] = useState(false);
 
-  const sqlQuery = `${query}${props.data.table}';`;
+  const sqlQuery = `${queryStart}${props.data.table}${queryEnd}`;
 
   const clipboard = useClipboard({
     onError() {
