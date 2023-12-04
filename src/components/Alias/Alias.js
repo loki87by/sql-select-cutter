@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import { queryStart, queryEnd } from "../../utils/consts";
+import Highlight from "react-highlight";
 import copy from "../../assets/copy.svg";
 import "./Alias.css";
 
@@ -31,10 +32,17 @@ function Alias(props) {
   }
 
   return !isDataInputed ? (
-    <section>
+    <section
+      style={{
+        backgroundColor: "rgba(253, 241, 241, .42)",
+        width: "max-content",
+        padding: "1vmin",
+        margin: "1vmax",
+      }}
+    >
       <p>Скопируйте следующий код:</p>
-      <code>{sqlQuery}</code>
-      <article onClick={copyCode}>
+      <Highlight className="sql">{sqlQuery}</Highlight>
+      <article onClick={copyCode} style={{ cursor: "pointer" }}>
         <img src={copy} alt="копировать" />
         <p>Скопировать код</p>
       </article>

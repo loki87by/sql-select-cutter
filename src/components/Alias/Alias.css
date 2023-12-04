@@ -1,3 +1,26 @@
 select {
   margin-right: 1em !important;
 }
+
+pre {
+  padding: 1vmin;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.897);
+}
+
+.hljs {
+  color: rgb(187, 37, 167);
+  font-weight: 900;
+}
+
+.hljs-keyword {
+  color: rgb(218, 103, 8);
+}
+
+.hljs-operator {
+  color: #fff;
+}
+
+.hljs-string {
+  color: rgb(19, 90, 19);
+}
