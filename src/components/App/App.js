@@ -47,9 +47,8 @@ function App() {
     if (fullTables.length === aliases.length) {
       const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
         const cur = match.replace(/\.\*$/, "");
-        const table = fullTables.find((i) => i.alias === cur);
         const coluumns = aliases.find((i) => i.alias === cur).data;
-        const data = coluumns.map((i) => `${table}.${i}`);
+        const data = coluumns.map((i) => `${cur}.${i}`);
 
         return data;
       });
@@ -101,6 +100,7 @@ function App() {
     let data = dataUpdater(dataArray);
     data = arrayLengthStabilizate(namesArray.length, data);
     const tmp = [];
+    console.log(namesArray, data)
 
     for (let k = 0; k < namesArray.length; k++) {
       let tmpArr = [];

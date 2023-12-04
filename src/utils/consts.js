@@ -58,7 +58,7 @@ export const selectCutter = (data) => {
       return match;
     }
   });
-  const array = string.split(/,\s/g);
+  const array = string.replace(' ', '').split(',');
   const res = array.map((i) => {
     return i.replace(/^\S*\s/, "");
   });
@@ -85,4 +85,4 @@ export function arrayLengthStabilizate(q, arr) {
 
 export const query = `SELECT column_name
 FROM USER_TAB_COLUMNS
-WHERE table_name = `
+WHERE table_name = '`
