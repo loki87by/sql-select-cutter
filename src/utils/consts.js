@@ -18,15 +18,17 @@ export function stringUpdater(str) {
   for (let i = 0; i < inputString.length; i++) {
     if (inputString[i] === "<") {
       inTag = true;
+      temp += inputString[i];
     } else if (inputString[i] === ">") {
       inTag = false;
+      temp += inputString[i];
     } else if (inputString[i] === '"' && !inTag) {
       inQuotes = !inQuotes;
     } else if (inputString[i] === "," && !inTag && !inQuotes) {
       result.push(temp);
       temp = "";
     } else {
-      temp += inputString[i];
+        temp += inputString[i];
     }
   }
   result.push(temp);
@@ -58,7 +60,7 @@ export const selectCutter = (data) => {
       return match;
     }
   });
-  const array = string.replace(' ', '').split(',');
+  const array = string.replace(" ", "").split(",");
   const res = array.map((i) => {
     return i.replace(/^\S*\s/, "");
   });
@@ -81,11 +83,12 @@ export function arrayLengthStabilizate(q, arr) {
       array.push(tmp);
     }
   }
-  return array;}
+  return array;
+}
 
 export const queryStart = `SELECT column_name
 FROM USER_TAB_COLUMNS
-WHERE table_name = '`
+WHERE table_name = '`;
 
 export const queryEnd = `'
-order by column_id;`
+order by column_id;`;

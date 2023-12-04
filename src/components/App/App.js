@@ -22,6 +22,7 @@ function App() {
   const [fullTables, setFullTables] = useState([]);
   const [aliases, setAliases] = useState([]);
 
+
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
@@ -100,7 +101,6 @@ function App() {
     let data = dataUpdater(dataArray);
     data = arrayLengthStabilizate(namesArray.length, data);
     const tmp = [];
-    console.log(namesArray, data)
 
     for (let k = 0; k < namesArray.length; k++) {
       let tmpArr = [];
@@ -120,6 +120,7 @@ function App() {
     const arr1upd = data.map((i) => arrayUpdater(i, tmp));
     const res = [arr2upd, ...arr1upd];
     setResult(res.filter((i) => !i.every((k) => k === null)));
+
     setScriptRunned(true);
   }
 

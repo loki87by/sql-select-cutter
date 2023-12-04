@@ -1,0 +1,30 @@
+.Popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: max-content;
+  min-height: 100vh;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s linear;
+}
+
+.Popup_opened {
+background-color: rgba(0, 0, 0, 0.7);
+visibility: visible;
+opacity: 1;
+}
+
+.Popup_close {
+  color: #fff;
+  cursor: pointer;
+}
+
+.Popup > pre > code > .hljs-tag {
+  color: red;
+}
+
+.Popup > pre > code {
+  color: #fff;
+}
