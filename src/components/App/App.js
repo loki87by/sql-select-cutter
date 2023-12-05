@@ -11,17 +11,16 @@ import "../../vendor/normalize.css";
 import "./App.css";
 
 function App() {
+  const [dataSelectValue, setDataSelectValue] = useState("");
+  const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
   const [isScriptRunned, setScriptRunned] = useState(false);
   const [isDataInputed, setDataInputed] = useState(false);
+  const [namesInputed, setNamesInputed] = useState(false);
   const [namesArray, setNamesArray] = useState([]);
   const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
-  const [dataSelectValue, setDataSelectValue] = useState("");
-  const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
-  const [namesInputed, setNamesInputed] = useState(false);
   const [fullTables, setFullTables] = useState([]);
   const [aliases, setAliases] = useState([]);
-
 
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
@@ -44,7 +43,6 @@ function App() {
   }
 
   useEffect(() => {
-
     if (fullTables.length === aliases.length) {
       const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
         const cur = match.replace(/\.\*$/, "");
@@ -66,7 +64,6 @@ function App() {
   ]);
 
   function setData(val) {
-
     if (!isDataInputed) {
       const currentVal = stringUpdater(val);
       setDataSelectValue(val);
@@ -79,7 +76,6 @@ function App() {
     const first = arr[0];
     const array = [];
     arr.forEach((i, ind) => {
-
       if (
         ind % (namesArray.length - 1) === 0 &&
         ind !== 0 &&

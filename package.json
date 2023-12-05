@@ -1,7 +1,7 @@
 {
   "homepage": "https://loki87by.github.io/sql-select-cutter/",
   "name": "sql-select-cutter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",

@@ -28,10 +28,11 @@ export function stringUpdater(str) {
       result.push(temp);
       temp = "";
     } else {
-        temp += inputString[i];
+      temp += inputString[i];
     }
   }
   result.push(temp);
+
   return result.map((val) => (val.trim() === "" ? null : val.trim()));
 }
 
@@ -43,6 +44,7 @@ export function arrayUpdater(array, notNullIndexes) {
       return null;
     }
   });
+
   return arrayUpdate.filter((i) => i !== null);
 }
 
@@ -64,12 +66,14 @@ export const selectCutter = (data) => {
   const res = array.map((i) => {
     return i.replace(/^\S*\s/, "");
   });
+
   return res;
 };
 
 export function arrayLengthStabilizate(q, arr) {
   const columnsQ = q;
   let array = [];
+
   if (arr.length === columnsQ) {
     array.push(arr);
   } else {
@@ -83,6 +87,7 @@ export function arrayLengthStabilizate(q, arr) {
       array.push(tmp);
     }
   }
+
   return array;
 }
 

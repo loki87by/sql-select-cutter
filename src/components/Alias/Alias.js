@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
-import { queryStart, queryEnd } from "../../utils/consts";
 import Highlight from "react-highlight";
+import { queryStart, queryEnd } from "../../utils/consts";
 import copy from "../../assets/copy.svg";
 import "./Alias.css";
 
@@ -43,7 +43,7 @@ function Alias(props) {
       <p>Скопируйте следующий код:</p>
       <Highlight className="sql">{sqlQuery}</Highlight>
       <article onClick={copyCode} style={{ cursor: "pointer" }}>
-        <img src={copy} alt="копировать" />
+        <img src={copy} alt="копировать" title="копировать" />
         <p>Скопировать код</p>
       </article>
       <p>Вставьте его в свою IDE и запустите</p>

@@ -6,9 +6,10 @@ import eye from "../../assets/eye.svg";
 import "./Table.css";
 
 function Table(props) {
-  const [xmls, setXmls] = useState([]);
   const [currentXml, setCurrentXml] = useState("");
   const [popupIsOpen, setPopupOpened] = useState(false);
+  const [xmls, setXmls] = useState([]);
+
   const clipboard = useClipboard({
     onError() {
       alert("Произошла непредвиденная ошибка");
@@ -42,19 +43,18 @@ function Table(props) {
 
   useEffect(() => {
     if (props.data !== undefined) {
-      const arr =
-        props.data
-          .map((row, ind) =>
-            row.map((cell) => {
-              if (cell[0] === "<" && cell[cell.length - 1] === ">") {
-                return cell;
-              } else {
-                return null;
-              }
-            })
-            .find((i) => i !== null)
-          )
-      setXmls(arr)
+      const arr = props.data.map((row, ind) =>
+        row
+          .map((cell) => {
+            if (cell[0] === "<" && cell[cell.length - 1] === ">") {
+              return cell;
+            } else {
+              return null;
+            }
+          })
+          .find((i) => i !== null)
+      );
+      setXmls(arr);
     }
   }, [props.data]);
 
