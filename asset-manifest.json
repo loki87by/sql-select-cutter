@@ -1,23 +1,26 @@
 {
   "files": {
-    "main.css": "/sql-select-cutter/static/css/main.fb337cd3.chunk.css",
-    "main.js": "/sql-select-cutter/static/js/main.f33f3c8a.chunk.js",
-    "main.js.map": "/sql-select-cutter/static/js/main.f33f3c8a.chunk.js.map",
-    "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.2e9b30e7.js",
-    "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.2e9b30e7.js.map",
-    "static/js/2.9d8379b5.chunk.js": "/sql-select-cutter/static/js/2.9d8379b5.chunk.js",
-    "static/js/2.9d8379b5.chunk.js.map": "/sql-select-cutter/static/js/2.9d8379b5.chunk.js.map",
-    "static/js/3.653c162f.chunk.js": "/sql-select-cutter/static/js/3.653c162f.chunk.js",
-    "static/js/3.653c162f.chunk.js.map": "/sql-select-cutter/static/js/3.653c162f.chunk.js.map",
+    "main.css": "/sql-select-cutter/static/css/main.13a07dd7.chunk.css",
+    "main.js": "/sql-select-cutter/static/js/main.bc70a910.chunk.js",
+    "main.js.map": "/sql-select-cutter/static/js/main.bc70a910.chunk.js.map",
+    "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.53db7785.js",
+    "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.53db7785.js.map",
+    "static/js/2.d7782789.chunk.js": "/sql-select-cutter/static/js/2.d7782789.chunk.js",
+    "static/js/2.d7782789.chunk.js.map": "/sql-select-cutter/static/js/2.d7782789.chunk.js.map",
+    "static/js/3.8c594f24.chunk.js": "/sql-select-cutter/static/js/3.8c594f24.chunk.js",
+    "static/js/3.8c594f24.chunk.js.map": "/sql-select-cutter/static/js/3.8c594f24.chunk.js.map",
     "index.html": "/sql-select-cutter/index.html",
-    "static/css/main.fb337cd3.chunk.css.map": "/sql-select-cutter/static/css/main.fb337cd3.chunk.css.map",
-    "static/js/2.9d8379b5.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.9d8379b5.chunk.js.LICENSE.txt",
-    "static/media/copy.067cf7a4.svg": "/sql-select-cutter/static/media/copy.067cf7a4.svg"
+    "static/css/main.13a07dd7.chunk.css.map": "/sql-select-cutter/static/css/main.13a07dd7.chunk.css.map",
+    "static/js/2.d7782789.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.d7782789.chunk.js.LICENSE.txt",
+    "static/media/close.ec18e898.svg": "/sql-select-cutter/static/media/close.ec18e898.svg",
+    "static/media/copy copy.39535df2.svg": "/sql-select-cutter/static/media/copy copy.39535df2.svg",
+    "static/media/copy.067cf7a4.svg": "/sql-select-cutter/static/media/copy.067cf7a4.svg",
+    "static/media/eye.f1a3a460.svg": "/sql-select-cutter/static/media/eye.f1a3a460.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2e9b30e7.js",
-    "static/js/2.9d8379b5.chunk.js",
-    "static/css/main.fb337cd3.chunk.css",
-    "static/js/main.f33f3c8a.chunk.js"
+    "static/js/runtime-main.53db7785.js",
+    "static/js/2.d7782789.chunk.js",
+    "static/css/main.13a07dd7.chunk.css",
+    "static/js/main.bc70a910.chunk.js"
   ]
 }
