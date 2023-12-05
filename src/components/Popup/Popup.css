@@ -16,9 +16,25 @@ visibility: visible;
 opacity: 1;
 }
 
-.Popup_close {
+.Popup_buttons {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Popup_button {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   color: #fff;
   cursor: pointer;
+}
+
+.Popup_button-image {
+  height: 50%;
+  width: auto;
 }
 
 .Popup > pre > code > .hljs-tag {
@@ -27,4 +43,5 @@ opacity: 1;
 
 .Popup > pre > code {
   color: #fff;
+  font-weight: 400;
 }

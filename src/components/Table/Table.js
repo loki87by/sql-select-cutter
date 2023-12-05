@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
 import copy from "../../assets/copy.svg";
+import eye from "../../assets/eye.svg";
 import "./Table.css";
 
 function Table(props) {
@@ -16,9 +17,6 @@ function Table(props) {
   });
 
   function openPopup(index) {
-    console.log(index);
-    console.log(xmls);
-    console.log(currentXml);
     setCurrentXml(xmls[index]);
     setPopupOpened(true);
   }
@@ -79,6 +77,7 @@ function Table(props) {
                       <img
                         src={copy}
                         alt="копировать"
+                        title="копировать"
                         onClick={() => {
                           copyColumn(index);
                         }}
@@ -88,7 +87,7 @@ function Table(props) {
                     )}
                     {cell[0] === "<" && cell[cell.length - 1] === ">" ? (
                       <img
-                        src={copy}
+                        src={eye}
                         alt="показать"
                         title="показать"
                         onClick={() => {
