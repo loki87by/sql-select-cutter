@@ -25,6 +25,8 @@ function App() {
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
+
+    if(alls){
     const array = alls.map((element) => {
       const cur = element.replace(/\.\*$/, "");
       const arr = tables.split(" ");
@@ -32,7 +34,7 @@ function App() {
 
       return { table: arr[index - 1], alias: cur };
     });
-    setFullTables(array);
+    setFullTables(array);}
   }
 
   function setInputData(e) {

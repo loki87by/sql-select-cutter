@@ -24,8 +24,25 @@ td {
   );
 }
 
+.table_head-cell{
+  position: relative;
+  width: 100%;
+}
+
+.table_head-cell > input {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 img {
   width: 1em;
   margin-left: 0.25em;
   cursor: pointer;
+}
+
+.table_search-close {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 0.5em);
 }
