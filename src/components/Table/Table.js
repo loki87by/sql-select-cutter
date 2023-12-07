@@ -43,7 +43,7 @@ function Table(props) {
     const data = props.data.filter((i, ind) => ind > 0);
     const body = data.map(i => JSON.stringify(i))
     addData({ head, body }).then((res) => {
-      clipboard.copy(`${baseUrl}&data=${res}`);
+      clipboard.copy(`${baseUrl}#data=${res}`);
       urlSetted(true);
     });
   }
@@ -53,7 +53,7 @@ function Table(props) {
     const data = dataArray;
     const body = data.map(i => JSON.stringify(i))
     addData({ head, body }).then((res) => {
-      clipboard.copy(`${baseUrl}&data=${res}`);
+      clipboard.copy(`${baseUrl}#data=${res}`);
       shortUrlSetted(true);
     });
   }
