@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
 import { debounce } from "../../utils/helpers";
+import { addData } from "../../utils/firebase";
+import { baseUrl } from '../../utils/consts'
 import copy from "../../assets/copy.svg";
 import eye from "../../assets/eye.svg";
 import close from "../../assets/close copy.svg";
@@ -13,6 +15,8 @@ function Table(props) {
   const [editingInputIndex, setEditingInputIndex] = useState(NaN);
   const [isEditing, setEditing] = useState(false);
   const [popupIsOpen, setPopupOpened] = useState(false);
+  const [urlIsSetted, urlSetted] = useState(false);
+  const [shortUrlIsSetted, shortUrlSetted] = useState(false);
   const [dataArray, setDataArray] = useState(
     props.data.filter((i, ind) => ind > 0)
   );
@@ -21,16 +25,38 @@ function Table(props) {
 
   const searchRef = useRef(null);
 
+  const clipboard = useClipboard({
+    onError() {
+      alert("Произошла непредвиденная ошибка");
+    },
+    copiedTimeout: 3000,
+  });
+
   useEffect(() => {
     if (isEditing) {
       searchRef.current.focus();
     }
   }, [editingInputIndex, isEditing]);
 
-  /*   function resetData() {
-    setFilters([]);
-    setDataArray(props.data.filter((i, ind) => ind > 0));
-  } */
+  function getFullLink() {
+    const head = props.data[0];
+    const data = props.data.filter((i, ind) => ind > 0);
+    const body = data.map(i => JSON.stringify(i))
+    addData({ head, body }).then((res) => {
+      clipboard.copy(`${baseUrl}&data=${res}`);
+      urlSetted(true);
+    });
+  }
+
+  function getShortLink() {
+    const head = props.data[0];
+    const data = dataArray;
+    const body = data.map(i => JSON.stringify(i))
+    addData({ head, body }).then((res) => {
+      clipboard.copy(`${baseUrl}&data=${res}`);
+      shortUrlSetted(true);
+    });
+  }
 
   function updateData() {
     let data = props.data.filter((i, ind) => ind > 0);
@@ -47,6 +73,13 @@ function Table(props) {
       data = arrWithFil;
     });
     setDataArray(data);
+  }
+
+  function resetData() {
+    setFilters([]);
+    setEditingInputIndex(NaN);
+    setEditing(false);
+    setDataArray(props.data.filter((i, ind) => ind > 0));
   }
 
   function findIn(index) {
@@ -74,13 +107,6 @@ function Table(props) {
     setFilters(arr);
     debounce(updateData, 500);
   }
-
-  const clipboard = useClipboard({
-    onError() {
-      alert("Произошла непредвиденная ошибка");
-    },
-    copiedTimeout: 3000,
-  });
 
   function openPopup(index) {
     setCurrentXml(xmls[index]);
@@ -124,7 +150,27 @@ function Table(props) {
   }, [dataArray]);
 
   return (
-    <>
+    <section className="Table">
+      <article className="Table_title">
+        {filters.length > 0 ? (
+          <p onClick={resetData} style={{ cursor: "pointer" }}>
+            Сбросить все фильтры
+          </p>
+        ) : (
+          ''
+        )}
+        <p
+          onClick={getFullLink}
+          style={{ cursor: "pointer" }}
+        >{urlIsSetted ? 'Ссылка скопирована в буфер обмена' : `Получить ссылку на ${filters.length > 0 ? "полную " : ''} таблицу`}</p>
+        {filters.length > 0 ? (
+          <p onClick={getShortLink} style={{ cursor: "pointer" }}>
+            {shortUrlIsSetted ? 'Ссылка скопирована в буфер обмена' : 'Получить ссылку на таблицу с фильтрами'}
+          </p>
+        ) : (
+          ''
+        )}
+      </article>
       <table>
         <thead>
           <tr>
@@ -210,7 +256,7 @@ function Table(props) {
         code={currentXml}
         closePopup={closePopup}
       />
-    </>
+    </section>
   );
 }
 

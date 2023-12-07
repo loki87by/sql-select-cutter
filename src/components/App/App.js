@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Alias from "../Alias/Alias";
 import Table from "../Table/Table";
 import Hint from "../Hint/Hint";
+import { getData } from "../../utils/firebase";
 import {
   stringUpdater,
   arrayUpdater,
@@ -49,10 +50,28 @@ function App() {
     setNamesInputed(true);
   }
 
+  function setDataFromLink(head, body) {
+    setResult([head, ...body])
+    setDataInputed(true)
+    setNamesInputed(true)
+    setScriptRunned(true)
+  }
+
+  useEffect(() => {
+
+    if(window.location.pathname !== '/') {
+      const link = window.location.href.replace(/.*data=/gi, '')
+      getData().then((res) => {
+        const data = res.find(i => i.id === link)
+        setDataFromLink(data.data.head, data.data.body.map(i => JSON.parse(i)))
+      });
+    }
+  })
+
   useEffect(() => {
     if (fullTables.length === aliases.length) {
       const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
-        const cur = match.replace(/\.\*$/, "");
+        const cur = match.replace(/\.\*$/, "").toUpperCase();
         const coluumns = aliases.find((i) => i.alias === cur).data;
         const data = coluumns.map((i) => `${cur}.${i}`);
 
@@ -140,7 +159,7 @@ function App() {
             alt="закрыть"
             title="закрыть"
             onMouseOver={(e) => {
-              setFromTopHint(e.clientY)
+              setFromTopHint(e.clientY);
               setShowedHindIndex(1);
             }}
             onMouseOut={() => {
@@ -168,7 +187,7 @@ function App() {
                 alt="закрыть"
                 title="закрыть"
                 onMouseOver={(e) => {
-                  setFromTopHint(e.clientY)
+                  setFromTopHint(e.clientY);
                   setShowedHindIndex(2);
                 }}
                 onMouseOut={() => {
@@ -209,7 +228,11 @@ function App() {
           </button>
         </>
       )}
-      <Hint index={showedHindIndex} popupIsOpen={showedHindIndex > 0} fromTop={fromTopHint + 50}/>
+      <Hint
+        index={showedHindIndex}
+        popupIsOpen={showedHindIndex > 0}
+        fromTop={fromTopHint + 50}
+      />
     </section>
   ) : (
     <Table data={result} />

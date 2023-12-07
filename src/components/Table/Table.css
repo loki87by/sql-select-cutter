@@ -1,3 +1,19 @@
+.Table {
+  position: relative;
+  width: max-content;
+  padding-top: 5vh;
+}
+
+.Table_title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  justify-content: space-around;
+  color:#fff;
+  font-weight: 700;
+}
+
 table {
   width: max-content;
   border: 1px solid var(--gap-color);
