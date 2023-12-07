@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Alias from "../Alias/Alias";
 import Table from "../Table/Table";
+import Hint from "../Hint/Hint";
 import {
   stringUpdater,
   arrayUpdater,
   selectCutter,
   arrayLengthStabilizate,
-} from "../../utils/consts";
+} from "../../utils/helpers";
+import question from "../../assets/question.svg";
 import "../../vendor/normalize.css";
 import "./App.css";
 
 function App() {
+  const [showedHindIndex, setShowedHindIndex] = useState(0);
+  const [fromTopHint, setFromTopHint] = useState(false);
   const [dataSelectValue, setDataSelectValue] = useState("");
   const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
   const [isScriptRunned, setScriptRunned] = useState(false);
@@ -26,15 +30,16 @@ function App() {
     const alls = str.match(/\S+\.\*/gi);
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
 
-    if(alls){
-    const array = alls.map((element) => {
-      const cur = element.replace(/\.\*$/, "");
-      const arr = tables.split(" ");
-      const index = arr.findIndex((el) => el === cur);
+    if (alls) {
+      const array = alls.map((element) => {
+        const cur = element.toUpperCase().replace(/\.\*$/, "");
+        const arr = tables.split(" ");
+        const index = arr.findIndex((el) => el.toUpperCase() === cur);
 
-      return { table: arr[index - 1], alias: cur };
-    });
-    setFullTables(array);}
+        return { table: arr[index - 1], alias: cur };
+      });
+      setFullTables(array);
+    }
   }
 
   function setInputData(e) {
@@ -129,6 +134,19 @@ function App() {
           <label htmlFor="data_input">
             Вставьте данные (результат запроса)
           </label>
+          <img
+            className="hint"
+            src={question}
+            alt="закрыть"
+            title="закрыть"
+            onMouseOver={(e) => {
+              setFromTopHint(e.clientY)
+              setShowedHindIndex(1);
+            }}
+            onMouseOut={() => {
+              setShowedHindIndex(0);
+            }}
+          />
           <input
             type="text"
             id="data_input"
@@ -144,6 +162,19 @@ function App() {
           {!namesInputed ? (
             <article>
               <label htmlFor={`names_input`}>Вставьте SQL-запрос</label>
+              <img
+                className="hint"
+                src={question}
+                alt="закрыть"
+                title="закрыть"
+                onMouseOver={(e) => {
+                  setFromTopHint(e.clientY)
+                  setShowedHindIndex(2);
+                }}
+                onMouseOut={() => {
+                  setShowedHindIndex(0);
+                }}
+              />
               <input
                 type="text"
                 id={`names_input`}
@@ -164,6 +195,8 @@ function App() {
                   index={index}
                   aliases={aliases}
                   setAliases={setAliases}
+                  setShowedHindIndex={setShowedHindIndex}
+                  setFromTop={setFromTopHint}
                 />
               ))
             : ""}
@@ -176,6 +209,7 @@ function App() {
           </button>
         </>
       )}
+      <Hint index={showedHindIndex} popupIsOpen={showedHindIndex > 0} fromTop={fromTopHint + 50}/>
     </section>
   ) : (
     <Table data={result} />

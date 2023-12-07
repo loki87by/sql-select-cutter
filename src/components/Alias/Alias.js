@@ -3,6 +3,7 @@ import { useClipboard } from "use-clipboard-copy";
 import Highlight from "react-highlight";
 import { queryStart, queryEnd } from "../../utils/consts";
 import copy from "../../assets/copy.svg";
+import question from "../../assets/question.svg";
 import "./Alias.css";
 
 function Alias(props) {
@@ -51,6 +52,19 @@ function Alias(props) {
         <label htmlFor={`alias_${props.index}_input`}>
           Вставьте данные (результат запроса)
         </label>
+        <img
+          className="hint"
+          src={question}
+          alt="закрыть"
+          title="закрыть"
+          onMouseOver={(e) => {
+            props.setFromTop(e.clientY)
+            props.setShowedHindIndex(3);
+          }}
+          onMouseOut={() => {
+            props.setShowedHindIndex(0);
+          }}
+        />
         <input
           type="text"
           id={`alias_${props.index}_input`}

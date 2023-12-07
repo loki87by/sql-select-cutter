@@ -1,0 +1,23 @@
+.Hint {
+  left: 10vw;
+  width: 80vw;
+  min-height: 30vh;
+  max-height: 50vh;
+  padding: 3vmin;
+}
+
+.Hint_text {
+  color: bisque;
+}
+
+.Hint_img {
+  height: auto;
+}
+
+.Hint_img_first {
+  width: 90%;
+}
+
+.Hint_img_second {
+  width: 20%;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
-import { debounce } from "../../utils/consts";
+import { debounce } from "../../utils/helpers";
 import copy from "../../assets/copy.svg";
 import eye from "../../assets/eye.svg";
 import close from "../../assets/close copy.svg";
