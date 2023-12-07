@@ -1,26 +1,31 @@
 {
   "files": {
-    "main.css": "/sql-select-cutter/static/css/main.13a07dd7.chunk.css",
-    "main.js": "/sql-select-cutter/static/js/main.bc70a910.chunk.js",
-    "main.js.map": "/sql-select-cutter/static/js/main.bc70a910.chunk.js.map",
-    "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.53db7785.js",
-    "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.53db7785.js.map",
-    "static/js/2.d7782789.chunk.js": "/sql-select-cutter/static/js/2.d7782789.chunk.js",
-    "static/js/2.d7782789.chunk.js.map": "/sql-select-cutter/static/js/2.d7782789.chunk.js.map",
-    "static/js/3.8c594f24.chunk.js": "/sql-select-cutter/static/js/3.8c594f24.chunk.js",
-    "static/js/3.8c594f24.chunk.js.map": "/sql-select-cutter/static/js/3.8c594f24.chunk.js.map",
+    "main.css": "/sql-select-cutter/static/css/main.8fae0875.chunk.css",
+    "main.js": "/sql-select-cutter/static/js/main.a67ce9bd.chunk.js",
+    "main.js.map": "/sql-select-cutter/static/js/main.a67ce9bd.chunk.js.map",
+    "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.71980689.js",
+    "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.71980689.js.map",
+    "static/js/2.430cacdc.chunk.js": "/sql-select-cutter/static/js/2.430cacdc.chunk.js",
+    "static/js/2.430cacdc.chunk.js.map": "/sql-select-cutter/static/js/2.430cacdc.chunk.js.map",
+    "static/js/3.4efbf4c1.chunk.js": "/sql-select-cutter/static/js/3.4efbf4c1.chunk.js",
+    "static/js/3.4efbf4c1.chunk.js.map": "/sql-select-cutter/static/js/3.4efbf4c1.chunk.js.map",
     "index.html": "/sql-select-cutter/index.html",
-    "static/css/main.13a07dd7.chunk.css.map": "/sql-select-cutter/static/css/main.13a07dd7.chunk.css.map",
-    "static/js/2.d7782789.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.d7782789.chunk.js.LICENSE.txt",
+    "static/css/main.8fae0875.chunk.css.map": "/sql-select-cutter/static/css/main.8fae0875.chunk.css.map",
+    "static/js/2.430cacdc.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.430cacdc.chunk.js.LICENSE.txt",
+    "static/media/close copy.69f538f3.svg": "/sql-select-cutter/static/media/close copy.69f538f3.svg",
     "static/media/close.ec18e898.svg": "/sql-select-cutter/static/media/close.ec18e898.svg",
-    "static/media/copy copy.39535df2.svg": "/sql-select-cutter/static/media/copy copy.39535df2.svg",
-    "static/media/copy.067cf7a4.svg": "/sql-select-cutter/static/media/copy.067cf7a4.svg",
-    "static/media/eye.f1a3a460.svg": "/sql-select-cutter/static/media/eye.f1a3a460.svg"
+    "static/media/copy copy.f0f823cc.svg": "/sql-select-cutter/static/media/copy copy.f0f823cc.svg",
+    "static/media/copy.9a9654e5.svg": "/sql-select-cutter/static/media/copy.9a9654e5.svg",
+    "static/media/eye.a0406346.svg": "/sql-select-cutter/static/media/eye.a0406346.svg",
+    "static/media/img1-min.c5680105.png": "/sql-select-cutter/static/media/img1-min.c5680105.png",
+    "static/media/img2-min.2ec812f4.png": "/sql-select-cutter/static/media/img2-min.2ec812f4.png",
+    "static/media/magnifier.1c751e03.svg": "/sql-select-cutter/static/media/magnifier.1c751e03.svg",
+    "static/media/question.6f8d6d0d.svg": "/sql-select-cutter/static/media/question.6f8d6d0d.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.53db7785.js",
-    "static/js/2.d7782789.chunk.js",
-    "static/css/main.13a07dd7.chunk.css",
-    "static/js/main.bc70a910.chunk.js"
+    "static/js/runtime-main.71980689.js",
+    "static/js/2.430cacdc.chunk.js",
+    "static/css/main.8fae0875.chunk.css",
+    "static/js/main.a67ce9bd.chunk.js"
   ]
 }
