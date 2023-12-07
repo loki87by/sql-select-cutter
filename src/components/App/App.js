@@ -59,7 +59,10 @@ function App() {
 
   useEffect(() => {
 
-    if(window.location.pathname !== '/') {
+    //for deploy
+    if(window.location.pathname !== '/sql-select-cutter/') {
+    //for dev
+    //if(window.location.pathname !== '/') {
       const link = window.location.href.replace(/.*data=/gi, '')
       getData().then((res) => {
         const data = res.find(i => i.id === link)

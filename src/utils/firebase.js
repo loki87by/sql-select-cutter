@@ -11,10 +11,10 @@ import {
   updateDoc, */
 } from "firebase/firestore";
 //for deploy:
-//import env from "react-dotenv";
+import env from "react-dotenv";
 
 //for dev:
-import { env } from './consts'
+//import { env } from './consts'
 
 const firebaseConfig = {
   apiKey: env.API_KEY,
