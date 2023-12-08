@@ -53,15 +53,24 @@
 }
 
 .Popup_button-image {
-  height: 50%;
+  height: 70%;
   width: auto;
+}
+
+pre {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Popup > pre > code {
+  max-width: 55vw;
+  color: #fff;
+  font-weight: 400;
+  white-space: pre-wrap;
 }
 
 .Popup > pre > code > .hljs-tag {
   color: red;
-}
-
-.Popup > pre > code {
-  color: #fff;
-  font-weight: 400;
 }
