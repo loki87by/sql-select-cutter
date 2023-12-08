@@ -1,5 +1,3 @@
-/* eslint-disable no-useless-escape */
-
 export function stringUpdater(str) {
   const inputString = str.replace(/( +)|(\n+)/g, (match, p1, p2) => {
     if (p1) {
@@ -94,6 +92,7 @@ export function arrayLengthStabilizate(q, arr) {
 export function debounce(f, t) {
   let lastCall = Date.now();
   let lastCallTimer = setTimeout(() => f(), t);
+
   return function () {
     const previousCall = lastCall;
     lastCall = Date.now();

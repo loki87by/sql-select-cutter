@@ -1,15 +1,30 @@
 section {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
 article {
   height: 5vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -28,6 +43,13 @@ input {
 
 button {
   cursor: pointer;
+  background: -o-linear-gradient(
+    295deg,
+    var(--gap-color) 35%,
+    #fff 40%,
+    #fff 65%,
+    var(--gap-color) 70%
+  );
   background: linear-gradient(
     155deg,
     var(--gap-color) 35%,

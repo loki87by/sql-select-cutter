@@ -15,9 +15,9 @@ import "./App.css";
 
 function App() {
   const [showedHindIndex, setShowedHindIndex] = useState(0);
-  const [fromTopHint, setFromTopHint] = useState(false);
   const [dataSelectValue, setDataSelectValue] = useState("");
   const [namesDataSelectValue, setNamesDataSelectValue] = useState("");
+  const [fromTopHint, setFromTopHint] = useState(false);
   const [isScriptRunned, setScriptRunned] = useState(false);
   const [isDataInputed, setDataInputed] = useState(false);
   const [namesInputed, setNamesInputed] = useState(false);
@@ -51,25 +51,26 @@ function App() {
   }
 
   function setDataFromLink(head, body) {
-    setResult([head, ...body])
-    setDataInputed(true)
-    setNamesInputed(true)
-    setScriptRunned(true)
+    setResult([head, ...body]);
+    setDataInputed(true);
+    setNamesInputed(true);
+    setScriptRunned(true);
+    window.location.hash = "";
   }
 
   useEffect(() => {
-
-    //for deploy
-    if(window.location.pathname !== '/sql-select-cutter/') {
-    //for dev
-    //if(window.location.pathname !== '/') {
-      const link = window.location.href.replace(/.*data=/gi, '')
+    if (window.location.hash !== "") {
+      const link = window.location.hash.replace(/.*data=/gi, "");
       getData().then((res) => {
-        const data = res.find(i => i.id === link)
-        setDataFromLink(data.data.head, data.data.body.map(i => JSON.parse(i)))
+        const data = res.find((i) => i.id === link);
+        setDataFromLink(
+          data.data.head,
+          data.data.body.map((i) => JSON.parse(i))
+        );
+        console.log(link);
       });
     }
-  })
+  });
 
   useEffect(() => {
     if (fullTables.length === aliases.length) {

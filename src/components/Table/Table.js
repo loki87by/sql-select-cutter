@@ -3,7 +3,7 @@ import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
 import { debounce } from "../../utils/helpers";
 import { addData } from "../../utils/firebase";
-import { baseUrl } from '../../utils/consts'
+import { baseUrl } from "../../utils/consts";
 import copy from "../../assets/copy.svg";
 import eye from "../../assets/eye.svg";
 import close from "../../assets/close copy.svg";
@@ -41,7 +41,7 @@ function Table(props) {
   function getFullLink() {
     const head = props.data[0];
     const data = props.data.filter((i, ind) => ind > 0);
-    const body = data.map(i => JSON.stringify(i))
+    const body = data.map((i) => JSON.stringify(i));
     addData({ head, body }).then((res) => {
       clipboard.copy(`${baseUrl}#data=${res}`);
       urlSetted(true);
@@ -51,7 +51,7 @@ function Table(props) {
   function getShortLink() {
     const head = props.data[0];
     const data = dataArray;
-    const body = data.map(i => JSON.stringify(i))
+    const body = data.map((i) => JSON.stringify(i));
     addData({ head, body }).then((res) => {
       clipboard.copy(`${baseUrl}#data=${res}`);
       shortUrlSetted(true);
@@ -61,6 +61,7 @@ function Table(props) {
   function updateData() {
     let data = props.data.filter((i, ind) => ind > 0);
     let currents = filters.slice();
+
     if (currents.some((i) => i.data.length === 0)) {
       const arr = currents.filter((i) => i.data.length > 0);
       currents = arr;
@@ -134,7 +135,7 @@ function Table(props) {
 
   useEffect(() => {
     if (dataArray !== undefined) {
-      const arr = dataArray.map((row, ind) =>
+      const arr = dataArray.map((row) =>
         row
           .map((cell) => {
             if (cell[0] === "<" && cell[cell.length - 1] === ">") {
@@ -157,18 +158,23 @@ function Table(props) {
             Сбросить все фильтры
           </p>
         ) : (
-          ''
+          ""
         )}
-        <p
-          onClick={getFullLink}
-          style={{ cursor: "pointer" }}
-        >{urlIsSetted ? 'Ссылка скопирована в буфер обмена' : `Получить ссылку на ${filters.length > 0 ? "полную " : ''} таблицу`}</p>
+        <p onClick={getFullLink} style={{ cursor: "pointer" }}>
+          {urlIsSetted
+            ? "Ссылка скопирована в буфер обмена"
+            : `Получить ссылку на ${
+                filters.length > 0 ? "полную " : ""
+              } таблицу`}
+        </p>
         {filters.length > 0 ? (
           <p onClick={getShortLink} style={{ cursor: "pointer" }}>
-            {shortUrlIsSetted ? 'Ссылка скопирована в буфер обмена' : 'Получить ссылку на таблицу с фильтрами'}
+            {shortUrlIsSetted
+              ? "Ссылка скопирована в буфер обмена"
+              : "Получить ссылку на таблицу с фильтрами"}
           </p>
         ) : (
-          ''
+          ""
         )}
       </article>
       <table>

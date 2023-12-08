@@ -58,7 +58,7 @@ function Alias(props) {
           alt="закрыть"
           title="закрыть"
           onMouseOver={(e) => {
-            props.setFromTop(e.clientY)
+            props.setFromTop(e.clientY);
             props.setShowedHindIndex(3);
           }}
           onMouseOut={() => {
