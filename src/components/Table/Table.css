@@ -3,7 +3,7 @@
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
-  padding-top: 5vh;
+  padding-top: 8vh;
 }
 
 .Table_title {
@@ -25,6 +25,17 @@
   font-weight: 700;
 }
 
+.Table_title_search {
+    top: 4.5vh;
+    width: 20vw;
+    margin-left: 40vw;
+    max-height: 3vh;
+}
+
+.Table_title_search > input {
+  width: 100%;
+}
+
 table {
   width: -webkit-max-content;
   width: -moz-max-content;
@@ -41,6 +52,7 @@ tbody {
 }
 
 td {
+  position: relative;
   height: 3vh;
   padding: 0.25em;
   border: 1px solid var(--bg-color);
@@ -60,6 +72,17 @@ td {
     #fff 75%,
     var(--gap-color) 80%
   );
+}
+
+.td_tmp {
+  color: transparent;
+}
+
+.span_tmp {
+  position: absolute;
+    left: 0;
+    width: 100%;
+    color: #000;
 }
 
 .table_head-cell {

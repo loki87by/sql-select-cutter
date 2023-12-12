@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
+import HighlightSearchText from "../HighlightSearchText/HighlightSearchText";
 import { debounce } from "../../utils/helpers";
 import { addData } from "../../utils/firebase";
 import { baseUrl } from "../../utils/consts";
@@ -12,6 +13,7 @@ import "./Table.css";
 
 function Table(props) {
   const [currentXml, setCurrentXml] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [editingInputIndex, setEditingInputIndex] = useState(NaN);
   const [isEditing, setEditing] = useState(false);
   const [popupIsOpen, setPopupOpened] = useState(false);
@@ -119,6 +121,11 @@ function Table(props) {
     setPopupOpened(false);
   }
 
+  function setGlobalSearch(val) {
+    console.log(val)
+    setSearchTerm(val)
+  }
+
   function copyColumn(index) {
     let string = "";
     dataArray.forEach((el, ind) => {
@@ -152,6 +159,16 @@ function Table(props) {
 
   return (
     <section className="Table">
+      <article className="Table_title Table_title_search">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => {
+            setGlobalSearch(e.target.value);
+          }}
+          placeholder="Глобальный поиск"
+        />
+      </article>
       <article className="Table_title">
         {filters.length > 0 ? (
           <p onClick={resetData} style={{ cursor: "pointer" }}>
@@ -230,6 +247,7 @@ function Table(props) {
           </tr>
         </thead>
         <tbody>
+          <HighlightSearchText searchTerm={searchTerm} />
           {dataArray.map((row, ind) => (
             <tr key={`row-${ind}`}>
               {row.map((cell, index) => {
