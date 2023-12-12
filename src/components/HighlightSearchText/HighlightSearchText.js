@@ -9,9 +9,14 @@ const HighlightSearchText = (props) => {
     const temporaryTds = Array.from(container.querySelectorAll('.td_tmp'))
     temporarySpans.forEach((node => node.remove()))
     temporaryTds.forEach((node => node.classList.remove('td_tmp')))
+    let counter = 0
+
     if (props.searchTerm !== "") {
       nodes.forEach(function (node) {
+        props.setSearchCounter(counter)
+
         if (node.textContent.match(searchTermRegex)) {
+          counter++
           const span = document.createElement("span");
           span.innerHTML = node.textContent.replace(
             searchTermRegex,

@@ -14,16 +14,17 @@ import "./Table.css";
 function Table(props) {
   const [currentXml, setCurrentXml] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchCounter, setSearchCounter] = useState(0);
   const [editingInputIndex, setEditingInputIndex] = useState(NaN);
   const [isEditing, setEditing] = useState(false);
   const [popupIsOpen, setPopupOpened] = useState(false);
   const [urlIsSetted, urlSetted] = useState(false);
   const [shortUrlIsSetted, shortUrlSetted] = useState(false);
+  const [filters, setFilters] = useState([]);
+  const [xmls, setXmls] = useState([]);
   const [dataArray, setDataArray] = useState(
     props.data.filter((i, ind) => ind > 0)
   );
-  const [filters, setFilters] = useState([]);
-  const [xmls, setXmls] = useState([]);
 
   const searchRef = useRef(null);
 
@@ -122,8 +123,8 @@ function Table(props) {
   }
 
   function setGlobalSearch(val) {
-    console.log(val)
-    setSearchTerm(val)
+    console.log(val);
+    setSearchTerm(val);
   }
 
   function copyColumn(index) {
@@ -168,6 +169,16 @@ function Table(props) {
           }}
           placeholder="Глобальный поиск"
         />
+        {searchCounter === 0 ? (
+          <img
+            src={magnifier}
+            alt="поиск"
+            title="искать по всей таблице"
+            className="Table_title_search-content"
+          />
+        ) : (
+          <p className="Table_title_search-content">{`результатов: ${searchCounter}`}</p>
+        )}
       </article>
       <article className="Table_title">
         {filters.length > 0 ? (
@@ -247,7 +258,10 @@ function Table(props) {
           </tr>
         </thead>
         <tbody>
-          <HighlightSearchText searchTerm={searchTerm} />
+          <HighlightSearchText
+            searchTerm={searchTerm}
+            setSearchCounter={setSearchCounter}
+          />
           {dataArray.map((row, ind) => (
             <tr key={`row-${ind}`}>
               {row.map((cell, index) => {

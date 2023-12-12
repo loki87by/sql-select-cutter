@@ -26,6 +26,7 @@
 }
 
 .Table_title_search {
+  position: relative;
     top: 4.5vh;
     width: 20vw;
     margin-left: 40vw;
@@ -34,6 +35,11 @@
 
 .Table_title_search > input {
   width: 100%;
+}
+
+.Table_title_search-content {
+  position: absolute;
+  right: 0;
 }
 
 table {
