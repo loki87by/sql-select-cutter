@@ -1,4 +1,4 @@
-# [red] SQL Select cutter
+# - ![#f03c15](https://placehold.it/15/f03c15/000000?text=SQL Select cutter) `#f03c15`
 
 ## Техничиские характеристики проекта
 
