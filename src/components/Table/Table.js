@@ -129,21 +129,24 @@ function Table(props) {
 
   useEffect(() => {
     if(findedPosition) {
-      const indexLeft = (findedPosition + 1) % (props.data[0].length + 1)
-      const indexTop = findedPosition - props.data[0].length
+      const indexLeft = (findedPosition + 1) - (Math.floor((findedPosition + 1) / props.data[0].length) * props.data[0].length) - 1
+      const indexTop = findedPosition
       const container = document.body;
       const nodes = Array.from(container.querySelectorAll("td"));
       if ((nodes[indexLeft].offsetLeft > window.innerWidth) || (nodes[indexTop].offsetTop > window.innerHeight)) {
         const elementX = nodes[indexLeft].offsetLeft
         const elementY = nodes[indexTop].offsetTop
-        const scrollPosition = {
+        const scrollPositionLeft = {
           left: elementX > window.innerWidth ? elementX : 0,
+          behavior: "smooth"
+        }
+        const scrollPositionTop = {
           top: elementY > window.innerHeight ? elementY : 0,
           behavior: "smooth"
         }
         const root = container.querySelector("#root")
-        console.log(scrollPosition)
-        root.scrollTo(elementX, elementY);
+        window.scrollTo(scrollPositionTop);
+        root.scrollTo(scrollPositionLeft);
       }
     }
   })
