@@ -15,6 +15,7 @@ function Table(props) {
   const [currentXml, setCurrentXml] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCounter, setSearchCounter] = useState(0);
+  const [findedPosition, setFindedPosition] = useState(NaN);
   const [editingInputIndex, setEditingInputIndex] = useState(NaN);
   const [isEditing, setEditing] = useState(false);
   const [popupIsOpen, setPopupOpened] = useState(false);
@@ -123,9 +124,29 @@ function Table(props) {
   }
 
   function setGlobalSearch(val) {
-    console.log(val);
     setSearchTerm(val);
   }
+
+  useEffect(() => {
+    if(findedPosition) {
+      const indexLeft = (findedPosition + 1) % (props.data[0].length + 1)
+      const indexTop = findedPosition - props.data[0].length
+      const container = document.body;
+      const nodes = Array.from(container.querySelectorAll("td"));
+      if ((nodes[indexLeft].offsetLeft > window.innerWidth) || (nodes[indexTop].offsetTop > window.innerHeight)) {
+        const elementX = nodes[indexLeft].offsetLeft
+        const elementY = nodes[indexTop].offsetTop
+        const scrollPosition = {
+          left: elementX > window.innerWidth ? elementX : 0,
+          top: elementY > window.innerHeight ? elementY : 0,
+          behavior: "smooth"
+        }
+        const root = container.querySelector("#root")
+        console.log(scrollPosition)
+        root.scrollTo(elementX, elementY);
+      }
+    }
+  })
 
   function copyColumn(index) {
     let string = "";
@@ -261,6 +282,7 @@ function Table(props) {
           <HighlightSearchText
             searchTerm={searchTerm}
             setSearchCounter={setSearchCounter}
+            setFindedPosition={setFindedPosition}
           />
           {dataArray.map((row, ind) => (
             <tr key={`row-${ind}`}>

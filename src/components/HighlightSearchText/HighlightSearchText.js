@@ -10,12 +10,17 @@ const HighlightSearchText = (props) => {
     temporarySpans.forEach((node => node.remove()))
     temporaryTds.forEach((node => node.classList.remove('td_tmp')))
     let counter = 0
+    let minIndex = NaN
 
     if (props.searchTerm !== "") {
-      nodes.forEach(function (node) {
+      nodes.forEach(function (node, index) {
         props.setSearchCounter(counter)
 
         if (node.textContent.match(searchTermRegex)) {
+          if (isNaN(minIndex) || index < minIndex) {
+            minIndex = index
+            props.setFindedPosition(index)
+          }
           counter++
           const span = document.createElement("span");
           span.innerHTML = node.textContent.replace(
