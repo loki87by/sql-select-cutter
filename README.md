@@ -1,4 +1,4 @@
-# SQL Select cutter
+# [[red]]SQL Select cutter
 
 ## Техничиские характеристики проекта
 
