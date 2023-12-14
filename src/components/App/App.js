@@ -8,6 +8,7 @@ import {
   arrayUpdater,
   selectCutter,
   arrayLengthStabilizate,
+  insertsChecker,
 } from "../../utils/helpers";
 import question from "../../assets/question.svg";
 import "../../vendor/normalize.css";
@@ -67,7 +68,6 @@ function App() {
           data.data.head,
           data.data.body.map((i) => JSON.parse(i))
         );
-        console.log(link);
       });
     }
   });
@@ -81,7 +81,7 @@ function App() {
 
         return data;
       });
-      let tmp = selectCutter(finString);
+      let tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
       let newData = [...tmp];
       setNamesArray(newData);
     }
@@ -104,9 +104,12 @@ function App() {
 
   function dataUpdater(arr) {
     const first = arr[0];
-    const array = [];
+    let array = [];
+    const hasNestedArray = arr.some((item) => Array.isArray(item));
+
     arr.forEach((i, ind) => {
       if (
+        hasNestedArray &&
         ind % (namesArray.length - 1) === 0 &&
         ind !== 0 &&
         ind !== arr.length - 1
@@ -176,7 +179,11 @@ function App() {
             name="data_input"
             placeholder="Вставьте данные"
             value={dataSelectValue}
-            onChange={(e) => setData(e.target.value)}
+            onChange={(e) => {
+              if (insertsChecker(e.target.value.split(/\n/))) {
+                setData(e.target.value);
+              }
+            }}
           />
         </article>
       ) : (

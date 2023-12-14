@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Highlight from "react-highlight";
 import { queryStart, queryEnd } from "../../utils/consts";
+import { insertsChecker } from "../../utils/helpers";
 import copy from "../../assets/copy.svg";
 import question from "../../assets/question.svg";
 import "./Alias.css";
@@ -71,7 +72,11 @@ function Alias(props) {
           name={`alias_${props.index}_input`}
           placeholder="Вставьте данные"
           value={""}
-          onChange={(e) => setData(e.target.value)}
+          onChange={(e) => {
+            if (insertsChecker(e.target.value.split(/\n/))) {
+              setData(e.target.value);
+            }
+          }}
         />
       </article>
     </section>

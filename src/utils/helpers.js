@@ -103,3 +103,12 @@ export function debounce(f, t) {
     lastCallTimer = setTimeout(() => f(), t);
   };
 }
+
+export const insertsChecker = (arr) => {
+
+  if (arr.some((i) => i.toUpperCase().includes("INSERT INTO"))) {
+    alert('Смените режим копирования с "SQL Inserts" на "CSV"');
+  } else {
+    return arr;
+  }
+};

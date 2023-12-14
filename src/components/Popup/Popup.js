@@ -16,14 +16,16 @@ function Popup(props) {
       .replace(/<\/(?!\/)/g, "\n</")
       .replace("\n*", "\n");
     const arr = str.split("\n");
-    arr.forEach((node) => {
-      const cur = node.replace("\n", "");
+    arr.forEach((node, index) => {
+      const cur = node.replace("\n", "").trim();
       let indent = "";
 
-      if (cur.match(/^<\/[\w\W]*>$/)) {
+      if (index === 0 && /^<\?xml[\w\W]*>$/.test(cur)) {
+        level = 0;
+      } else if (/^<\/[\w\W]*>$/.test(cur)) {
         level--;
         indent = tab.repeat(level);
-      } else if (cur.match(/^<[\w\W]*>$/)) {
+      } else if (/^<.*>$/.test(cur)) {
         indent = tab.repeat(level);
         level++;
       } else {
