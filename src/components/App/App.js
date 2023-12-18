@@ -64,10 +64,14 @@ function App() {
       const link = window.location.hash.replace(/.*data=/gi, "");
       getData().then((res) => {
         const data = res.find((i) => i.id === link);
+
+        if (data) {
         setDataFromLink(
           data.data.head,
           data.data.body.map((i) => JSON.parse(i))
-        );
+        )} else {
+          alert('Данная ссылка устарела и была удалена')
+        }
       });
     }
   });
