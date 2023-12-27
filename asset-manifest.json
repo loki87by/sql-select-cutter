@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sql-select-cutter/static/css/main.90f69a23.chunk.css",
-    "main.js": "/sql-select-cutter/static/js/main.f72fd4f8.chunk.js",
-    "main.js.map": "/sql-select-cutter/static/js/main.f72fd4f8.chunk.js.map",
+    "main.js": "/sql-select-cutter/static/js/main.85bcbf40.chunk.js",
+    "main.js.map": "/sql-select-cutter/static/js/main.85bcbf40.chunk.js.map",
     "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.6428f379.js",
     "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.6428f379.js.map",
     "static/js/2.ec64edb0.chunk.js": "/sql-select-cutter/static/js/2.ec64edb0.chunk.js",
@@ -26,6 +26,6 @@
     "static/js/runtime-main.6428f379.js",
     "static/js/2.ec64edb0.chunk.js",
     "static/css/main.90f69a23.chunk.css",
-    "static/js/main.f72fd4f8.chunk.js"
+    "static/js/main.85bcbf40.chunk.js"
   ]
 }
