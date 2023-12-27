@@ -30,7 +30,9 @@ function App() {
 
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
+    console.log(str.match(/select \(?\*\)?/gi))
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
+    console.log(tables)
 
     if (alls) {
       const array = alls.map((element) => {
@@ -86,8 +88,13 @@ function App() {
         return data;
       });
       let tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
-      let newData = [...tmp];
-      setNamesArray(newData);
+      let newData;
+      if(tmp.length === 1 && tmp[0] === '*') {
+alert('Перечислите таблицы из которых хотите вывести всё')
+      }else{
+        newData = [...tmp];
+        setNamesArray(newData);
+      }
     }
   }, [
     fullTables.length,

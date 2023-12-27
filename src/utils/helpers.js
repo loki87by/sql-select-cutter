@@ -7,7 +7,7 @@ export function stringUpdater(str) {
     } else {
       return match;
     }
-  });
+  }).replace(/null null/g, `null, null`).replace(/null\nnull/g, `null, null`);
   let result = [];
   let temp = "";
   let inTag = false;
@@ -30,7 +30,6 @@ export function stringUpdater(str) {
     }
   }
   result.push(temp);
-
   return result.map((val) => (val.trim() === "" ? null : val.trim()));
 }
 
