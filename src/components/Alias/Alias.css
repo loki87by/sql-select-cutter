@@ -9,12 +9,12 @@ pre {
 }
 
 .hljs {
-  color: rgb(187, 37, 167);
+  color: rgb(182, 75, 168);
   font-weight: 900;
 }
 
 .hljs-keyword {
-  color: rgb(218, 103, 8);
+  color: rgb(211, 125, 55);
 }
 
 .hljs-operator {
@@ -22,5 +22,13 @@ pre {
 }
 
 .hljs-string {
-  color: rgb(19, 90, 19);
+  color: rgb(42, 160, 72);
+}
+
+.hljs-number {
+  color: rgb(49, 176, 207);
+}
+
+.hljs-meta-string {
+  color: #999; /* Новый цвет для разделителей */
 }

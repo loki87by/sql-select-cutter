@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { /* useEffect, */ useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Highlight from "react-highlight";
-import { queryStart, queryEnd } from "../../utils/consts";
-import { insertsChecker } from "../../utils/helpers";
+import { insertsChecker, aliasesQuery } from "../../utils/helpers";
 import copy from "../../assets/copy.svg";
 import question from "../../assets/question.svg";
 import "./Alias.css";
@@ -10,7 +9,7 @@ import "./Alias.css";
 function Alias(props) {
   const [isDataInputed, setDataInputed] = useState(false);
 
-  const sqlQuery = `${queryStart}${props.data.table}${queryEnd}`;
+  const sqlQuery = aliasesQuery(props.data)
 
   const clipboard = useClipboard({
     onError() {
@@ -25,13 +24,43 @@ function Alias(props) {
 
   function setData(val) {
     const arr = props.aliases.slice();
-    arr.push({
-      data: val.split(/,|\s+/),
-      alias: props.data.alias,
-    });
+    const array = val.split(',')
+    let tmp = []
+    for (let i = 0; i <= Math.ceil(array.length/2); i++) {
+
+      if(array[i*2] && array[i*2 + 1]){
+      tmp.push({
+        columnName: array[i*2].trim(), table: array[i*2 + 1].trim()
+      })}
+    }
+    const groupedByTable = tmp.reduce((acc, column) => {
+      const {columnName, table} = column;
+
+      if (!acc[table]) {
+        acc[table] = { table, data: [] };
+      }
+      acc[table].data.push(columnName);
+      return acc;
+    }, {});
+    const result = Object.values(groupedByTable);
+    result.forEach((obj) => {
+      arr.push({
+        data: obj.data,
+        alias: props.data.find(i => i.table.toLowerCase() === obj.table.toLowerCase()).alias
+      });
+    })
+    console.log(arr)
     setDataInputed(true);
     props.setAliases(arr);
   }
+
+/*   useEffect(() => {
+window.document.querySelectorAll('.hljs').forEach(element => {
+  let text = element.textContent;
+  let newText = text.replace(/,/g, '<span class="comma">,</span>').replace(/\(/g, '<span class="bracket">(</span>').replace(/\)/g, '<span class="bracket">)</span>');
+  element.innerHTML = newText;
+})
+  },[]) */
 
   return !isDataInputed ? (
     <section

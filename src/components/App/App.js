@@ -30,9 +30,18 @@ function App() {
 
   function checkFullTables(str) {
     const alls = str.match(/\S+\.\*/gi);
-    console.log(str.match(/select \(?\*\)?/gi))
     const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
-    console.log(tables)
+//!!!!!!!!
+    if ((/select \(?\*\)?/gi).test(str)) {
+      const cleaned = tables.replace(/where[\s*\S*]*/gi, '').split(/[\n\t]|\s{2,}/)
+      const cleaned2 = cleaned.map(i => i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, '').trim())
+      const arr = cleaned2.map((el) => {
+        const cur = el.split(' ')[1]
+        const tab = el.split(' ')[0]
+        return { table: tab, alias: cur };
+      })
+      setFullTables(arr.filter(el => el.table.toLowerCase() !== 'on'))
+    }
 
     if (alls) {
       const array = alls.map((element) => {
@@ -79,6 +88,7 @@ function App() {
   });
 
   useEffect(() => {
+    console.log(fullTables.length, aliases.length)
     if (fullTables.length === aliases.length) {
       const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
         const cur = match.replace(/\.\*$/, "").toUpperCase();
@@ -87,14 +97,11 @@ function App() {
 
         return data;
       });
+      console.log(finString)
       let tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
       let newData;
-      if(tmp.length === 1 && tmp[0] === '*') {
-alert('Перечислите таблицы из которых хотите вывести всё')
-      }else{
         newData = [...tmp];
         setNamesArray(newData);
-      }
     }
   }, [
     fullTables.length,
@@ -228,18 +235,18 @@ alert('Перечислите таблицы из которых хотите в
           ) : (
             <p>Данные приняты</p>
           )}
-          {fullTables.length > 0
-            ? fullTables.map((item, index) => (
+          {fullTables.length > 0 ?
+            /* ? fullTables.map((item, index) => ( */
                 <Alias
-                  key={`alias-${index}`}
-                  data={item}
-                  index={index}
+                  /* key={`alias-${index}`} */
+                  data={fullTables}
+                  /* index={index} */
                   aliases={aliases}
                   setAliases={setAliases}
                   setShowedHindIndex={setShowedHindIndex}
                   setFromTop={setFromTopHint}
                 />
-              ))
+              /* )) */
             : ""}
           <button
             className="main_button"

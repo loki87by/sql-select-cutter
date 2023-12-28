@@ -2,12 +2,13 @@ import img1 from "../../src/assets/img1-min.png";
 import img2 from "../../src/assets/img2-min.png";
 import img3 from "../../src/assets/img3-min.png";
 
-export const queryStart = `SELECT column_name
+export const queryStart = `SELECT column_name, table_name
 FROM USER_TAB_COLUMNS
-WHERE table_name = '`;
-
-export const queryEnd = `'
-order by column_id;`;
+WHERE table_name `
+export const queryBodyPreStart = `\n) ORDER BY CASE\n`
+export const queryBodyStart = `WHEN table_name = `
+export const queryBodyEnd = ` THEN `
+export const queryEnd = ` END, column_id;`
 
 export const hints = [
   [

@@ -1,13 +1,40 @@
+import {
+  queryStart,
+  queryBodyPreStart,
+  queryBodyStart,
+  queryBodyEnd,
+  queryEnd,
+} from "./consts.js";
+
+export const aliasesQuery = (arr) => {
+  let str = "";
+  if (arr.length === 1) {
+    str = `${queryStart} = '${arr[0].table}' order by column_id;`;
+  } else {
+    str = `${queryStart}IN (\n`;
+    str += Object.values(arr.map((i) => `'${i.table}'`)).join(",\n");
+    str += queryBodyPreStart;
+    Object.values(arr.map((i) => i.table)).forEach((table, index) => {
+      str += `${queryBodyStart}'${table}'${queryBodyEnd}${index + 1}\n`;
+    });
+    str += `\nELSE ${arr.length + 1}${queryEnd}`;
+  }
+  return str;
+};
+
 export function stringUpdater(str) {
-  const inputString = str.replace(/( +)|(\n+)/g, (match, p1, p2) => {
-    if (p1) {
-      return " ";
-    } else if (p2) {
-      return ", ";
-    } else {
-      return match;
-    }
-  }).replace(/null null/g, `null, null`).replace(/null\nnull/g, `null, null`);
+  const inputString = str
+    .replace(/( +)|(\n+)/g, (match, p1, p2) => {
+      if (p1) {
+        return " ";
+      } else if (p2) {
+        return ", ";
+      } else {
+        return match;
+      }
+    })
+    .replace(/null null/g, `null, null`)
+    .replace(/null\nnull/g, `null, null`);
   let result = [];
   let temp = "";
   let inTag = false;
@@ -104,7 +131,6 @@ export function debounce(f, t) {
 }
 
 export const insertsChecker = (arr) => {
-
   if (arr.some((i) => i.toUpperCase().includes("INSERT INTO"))) {
     alert('Смените режим копирования с "SQL Inserts" на "CSV"');
   } else {
