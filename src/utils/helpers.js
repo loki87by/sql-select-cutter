@@ -17,7 +17,7 @@ export const aliasesQuery = (arr) => {
     Object.values(arr.map((i) => i.table)).forEach((table, index) => {
       str += `${queryBodyStart}'${table}'${queryBodyEnd}${index + 1}\n`;
     });
-    str += `\nELSE ${arr.length + 1}${queryEnd}`;
+    str += `ELSE ${arr.length + 1}${queryEnd}`;
   }
   return str;
 };

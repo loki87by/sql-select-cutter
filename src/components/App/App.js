@@ -29,24 +29,27 @@ function App() {
   const [aliases, setAliases] = useState([]);
 
   function checkFullTables(str) {
+    console.log(str)
     const alls = str.match(/\S+\.\*/gi);
-    const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "");
-//!!!!!!!!
-    if ((/select \(?\*\)?/gi).test(str)) {
+    const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "").trim();
+
+    if ((/[\s*\S*]* \(?\*\)?[ ,]/gi).test(str)) {
       const cleaned = tables.replace(/where[\s*\S*]*/gi, '').split(/[\n\t]|\s{2,}/)
-      const cleaned2 = cleaned.map(i => i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, '').trim())
-      const arr = cleaned2.map((el) => {
+      const cleaned2 = cleaned.join(' ').match(/^\S*\s\S*/gi)
+      const cleaned3 = cleaned.map(i => i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, '').trim())
+      const arr = [...cleaned2, ...cleaned3].map((el) => {
         const cur = el.split(' ')[1]
         const tab = el.split(' ')[0]
         return { table: tab, alias: cur };
       })
+
       setFullTables(arr.filter(el => el.table.toLowerCase() !== 'on'))
     }
 
     if (alls) {
       const array = alls.map((element) => {
         const cur = element.toUpperCase().replace(/\.\*$/, "");
-        const arr = tables.split(" ");
+        const arr = tables.split(/\s/);
         const index = arr.findIndex((el) => el.toUpperCase() === cur);
 
         return { table: arr[index - 1], alias: cur };
@@ -99,6 +102,7 @@ function App() {
       });
       console.log(finString)
       let tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
+      console.log(tmp)
       let newData;
         newData = [...tmp];
         setNamesArray(newData);

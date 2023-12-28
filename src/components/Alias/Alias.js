@@ -44,9 +44,10 @@ function Alias(props) {
     }, {});
     const result = Object.values(groupedByTable);
     result.forEach((obj) => {
+      const cur = props.data.find(i => i.table.toLowerCase() === obj.table.toLowerCase())
       arr.push({
         data: obj.data,
-        alias: props.data.find(i => i.table.toLowerCase() === obj.table.toLowerCase()).alias
+        alias: cur? cur.alias : '*'
       });
     })
     console.log(arr)

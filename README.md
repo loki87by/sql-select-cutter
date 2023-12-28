@@ -12,12 +12,3 @@
 * Есть возможность получить ссылку на изначальную или отфильтрованную таблицу для открытия этой таблицы на другом (в том числе мобильном) устройстве.
 
 [Приложение тут](https://loki87by.github.io/sql-select-cutter/)
-
-SELECT column_name, table_name
-FROM USER_TAB_COLUMNS
-WHERE table_name IN ('TABLE1', 'TABLE2')
-ORDER BY CASE
-    WHEN table_name = 'TABLE1' THEN 1
-    WHEN table_name = 'TABLE2' THEN 2
-    ELSE 3
-  END, column_id;
