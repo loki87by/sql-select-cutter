@@ -1,4 +1,5 @@
-import React, { /* useEffect, */ useState } from "react";
+/* eslint-disable no-useless-escape */
+import React, { useEffect, useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Highlight from "react-highlight";
 import { insertsChecker, aliasesQuery } from "../../utils/helpers";
@@ -53,6 +54,18 @@ function Alias(props) {
     setDataInputed(true);
     props.setAliases(arr);
   }
+
+  useEffect(() => {
+    const code = window.document.querySelector('.sql')
+    const replacedContent = code.innerHTML.replace(/[\(\),;]/g, (match) => {
+      if (match === '(' || match === ')') {
+        return '<span class="hljs-operator">' + match + '</span>';
+      } else {
+        return '<span class="hljs-operator">' + match + '</span>';
+      }
+    });
+    code.innerHTML = replacedContent;
+  }, [])
 
   return !isDataInputed ? (
     <section
