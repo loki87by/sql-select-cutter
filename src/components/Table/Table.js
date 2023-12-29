@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useClipboard } from "use-clipboard-copy";
 import Popup from "../Popup/Popup";
 import HighlightSearchText from "../HighlightSearchText/HighlightSearchText";
-import { debounce } from "../../utils/helpers";
+import { debounce, floatToDate } from "../../utils/helpers";
 import { addData } from "../../utils/firebase";
 import { baseUrl } from "../../utils/consts";
 import copy from "../../assets/copy.svg";
@@ -128,28 +128,36 @@ function Table(props) {
   }
 
   useEffect(() => {
-    if(findedPosition) {
-      const indexLeft = (findedPosition + 1) - (Math.floor((findedPosition + 1) / props.data[0].length) * props.data[0].length) - 1
-      const indexTop = findedPosition
+    if (findedPosition) {
+      const indexLeft =
+        findedPosition +
+        1 -
+        Math.floor((findedPosition + 1) / props.data[0].length) *
+          props.data[0].length -
+        1;
+      const indexTop = findedPosition;
       const container = document.body;
       const nodes = Array.from(container.querySelectorAll("td"));
-      if ((nodes[indexLeft].offsetLeft > window.innerWidth) || (nodes[indexTop].offsetTop > window.innerHeight)) {
-        const elementX = nodes[indexLeft].offsetLeft
-        const elementY = nodes[indexTop].offsetTop
+      if (
+        nodes[indexLeft].offsetLeft > window.innerWidth ||
+        nodes[indexTop].offsetTop > window.innerHeight
+      ) {
+        const elementX = nodes[indexLeft].offsetLeft;
+        const elementY = nodes[indexTop].offsetTop;
         const scrollPositionLeft = {
           left: elementX > window.innerWidth ? elementX : 0,
-          behavior: "smooth"
-        }
+          behavior: "smooth",
+        };
         const scrollPositionTop = {
           top: elementY > window.innerHeight ? elementY : 0,
-          behavior: "smooth"
-        }
-        const root = container.querySelector("#root")
+          behavior: "smooth",
+        };
+        const root = container.querySelector("#root");
         window.scrollTo(scrollPositionTop);
         root.scrollTo(scrollPositionLeft);
       }
     }
-  })
+  });
 
   function copyColumn(index) {
     let string = "";
@@ -291,7 +299,15 @@ function Table(props) {
             <tr key={`row-${ind}`}>
               {row.map((cell, index) => {
                 return (
-                  <td key={`cell-${index}`}>
+                  <td
+                    key={`cell-${index}`}
+                    title={
+                      /date/.test(props.data[0][index].toLowerCase())
+                        ?
+                        floatToDate(cell)
+                        : ""
+                    }
+                  >
                     {cell[0] === "<" && cell[cell.length - 1] === ">"
                       ? "XML"
                       : cell}

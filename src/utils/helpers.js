@@ -19,8 +19,8 @@ export const aliasesQuery = (arr) => {
     });
     str += `ELSE ${arr.length + 1}${queryEnd}`;
   }
-  const uniqueSubStrings = Array.from(new Set(str.split('\n')));
-  return uniqueSubStrings.join('\n');
+  const uniqueSubStrings = Array.from(new Set(str.split("\n")));
+  return uniqueSubStrings.join("\n");
 };
 
 export function stringUpdater(str) {
@@ -137,4 +137,12 @@ export const insertsChecker = (arr) => {
   } else {
     return arr;
   }
+};
+
+export const floatToDate = (float) => {
+  //console.log(arg[ind].toLowerCase().test("date"))
+  //props.data[0][index].toLowerCase().test("date")
+  const milliseconds = (float - 25569) * 86400000;
+  const dateObject = new Date(milliseconds);
+  return dateObject;
 };
