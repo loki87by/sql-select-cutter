@@ -19,7 +19,8 @@ export const aliasesQuery = (arr) => {
     });
     str += `ELSE ${arr.length + 1}${queryEnd}`;
   }
-  return str;
+  const uniqueSubStrings = Array.from(new Set(str.split('\n')));
+  return uniqueSubStrings.join('\n');
 };
 
 export function stringUpdater(str) {

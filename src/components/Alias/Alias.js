@@ -50,18 +50,9 @@ function Alias(props) {
         alias: cur? cur.alias : '*'
       });
     })
-    console.log(arr)
     setDataInputed(true);
     props.setAliases(arr);
   }
-
-/*   useEffect(() => {
-window.document.querySelectorAll('.hljs').forEach(element => {
-  let text = element.textContent;
-  let newText = text.replace(/,/g, '<span class="comma">,</span>').replace(/\(/g, '<span class="bracket">(</span>').replace(/\)/g, '<span class="bracket">)</span>');
-  element.innerHTML = newText;
-})
-  },[]) */
 
   return !isDataInputed ? (
     <section

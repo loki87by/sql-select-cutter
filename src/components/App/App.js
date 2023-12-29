@@ -29,21 +29,31 @@ function App() {
   const [aliases, setAliases] = useState([]);
 
   function checkFullTables(str) {
-    console.log(str)
     const alls = str.match(/\S+\.\*/gi);
-    const tables = str.toUpperCase().replace(/(\S+\s)*FROM/, "").trim();
+    const tables = str
+      .toUpperCase()
+      .replace(/(\S+\s)*FROM/, "")
+      .trim();
 
-    if ((/[\s*\S*]* \(?\*\)?[ ,]/gi).test(str)) {
-      const cleaned = tables.replace(/where[\s*\S*]*/gi, '').split(/[\n\t]|\s{2,}/)
-      const cleaned2 = cleaned.join(' ').match(/^\S*\s\S*/gi)
-      const cleaned3 = cleaned.map(i => i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, '').trim())
+    if (/[\s*\S*]* \(?\*\)?[ ,]/gi.test(str)) {
+      const cleaned = tables
+        .replace(/where[\s*\S*]*/gi, "")
+        .split(/[\n\t]|\s{2,}/);
+      const cleaned2 = cleaned.join(" ").match(/^\S*\s\S*/gi);
+      const cleaned3 = cleaned.map((i) =>
+        i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, "").trim()
+      );
       const arr = [...cleaned2, ...cleaned3].map((el) => {
-        const cur = el.split(' ')[1]
-        const tab = el.split(' ')[0]
+        const cur = el.split(" ")[1];
+        const tab = el.split(" ")[0];
         return { table: tab, alias: cur };
-      })
-
-      setFullTables(arr.filter(el => el.table.toLowerCase() !== 'on'))
+      });
+      const uniqueObjects = arr.filter((obj, index, self) =>
+      index === self.findIndex((t) => (
+        t.table === obj.table && t.alias === obj.alias
+      ))
+    );
+      setFullTables(uniqueObjects.filter((el) => el.table.toLowerCase() !== "on"));
     }
 
     if (alls) {
@@ -80,18 +90,18 @@ function App() {
         const data = res.find((i) => i.id === link);
 
         if (data) {
-        setDataFromLink(
-          data.data.head,
-          data.data.body.map((i) => JSON.parse(i))
-        )} else {
-          alert('Данная ссылка устарела и была удалена')
+          setDataFromLink(
+            data.data.head,
+            data.data.body.map((i) => JSON.parse(i))
+          );
+        } else {
+          alert("Данная ссылка устарела и была удалена");
         }
       });
     }
   });
 
   useEffect(() => {
-    console.log(fullTables.length, aliases.length)
     if (fullTables.length === aliases.length) {
       const finString = namesDataSelectValue.replace(/\S+\.\*/gi, (match) => {
         const cur = match.replace(/\.\*$/, "").toUpperCase();
@@ -100,12 +110,25 @@ function App() {
 
         return data;
       });
-      console.log(finString)
       let tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
-      console.log(tmp)
+
+      if (namesDataSelectValue === finString && tmp[0] === "*") {
+        let tables = "";
+        aliases.forEach((i, index) => {
+          i.data.forEach((t, ind) => {
+            if (ind === aliases.length - 1 && index === i.length - 1) {
+              tables += `${i.alias}.${t}`;
+            } else {
+              tables += `${i.alias}.${t}, `;
+            }
+          });
+        });
+        const finString = namesDataSelectValue.replace(/\S+ \*[ ,]/gi, tables);
+        tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
+      }
       let newData;
-        newData = [...tmp];
-        setNamesArray(newData);
+      newData = [...tmp];
+      setNamesArray(newData);
     }
   }, [
     fullTables.length,
@@ -239,19 +262,18 @@ function App() {
           ) : (
             <p>Данные приняты</p>
           )}
-          {fullTables.length > 0 ?
-            /* ? fullTables.map((item, index) => ( */
-                <Alias
-                  /* key={`alias-${index}`} */
-                  data={fullTables}
-                  /* index={index} */
-                  aliases={aliases}
-                  setAliases={setAliases}
-                  setShowedHindIndex={setShowedHindIndex}
-                  setFromTop={setFromTopHint}
-                />
-              /* )) */
-            : ""}
+          {fullTables.length > 0 ? (
+            <Alias
+              data={fullTables}
+              aliases={aliases}
+              setAliases={setAliases}
+              setShowedHindIndex={setShowedHindIndex}
+              setFromTop={setFromTopHint}
+            />
+          ) : (
+            /* )) */
+            ""
+          )}
           <button
             className="main_button"
             disabled={fullTables.length !== aliases.length}
