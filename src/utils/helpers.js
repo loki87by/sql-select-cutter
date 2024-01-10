@@ -140,9 +140,51 @@ export const insertsChecker = (arr) => {
 };
 
 export const floatToDate = (float) => {
-  //console.log(arg[ind].toLowerCase().test("date"))
-  //props.data[0][index].toLowerCase().test("date")
   const milliseconds = (float - 25569) * 86400000;
   const dateObject = new Date(milliseconds);
   return dateObject;
+};
+
+const maybeFloat = (num) => {
+  return typeof Date.parse(floatToDate(num)) === "number" && !isNaN(Date.parse(floatToDate(num)));
+};
+
+const findMaybeFloat = (first, last)=>{
+const fmf = maybeFloat(+first);
+const lmf = maybeFloat(+last);
+if (fmf && lmf) return null
+if (!fmf) return last
+if (!lmf) return first
+}
+
+const findNumberImpossible = (first, last)=>{
+const lni = isNaN(+first);
+const fni = isNaN(+last);
+if (!fni) return last
+if (!lni) return first
+}
+
+export const findNReplaceLastElement = (cur, zero) => {
+  const isFirstString = isNaN(+zero);
+  let isFirstMaybeFloat;
+  let current
+  const first = cur[0];
+  const last = cur[cur.length - 1];
+  //const firstLength = zero.length;
+
+  if (!isFirstString) {
+    isFirstMaybeFloat = maybeFloat(+zero);
+
+    if (isFirstMaybeFloat && findMaybeFloat(first, last) !== null) {
+      current = findMaybeFloat(first, last)
+      return current
+    } else {
+      current = findNumberImpossible(first, last)
+      return current
+    }
+  } else {
+    const match = cur.join(' ').match(/\s\p{Lu}/u)
+    const upperIndex = match ? match.index : -1
+    return cur.join(' ').slice(upperIndex).trim()
+  }
 };

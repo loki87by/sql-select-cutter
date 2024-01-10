@@ -9,6 +9,7 @@ import {
   selectCutter,
   arrayLengthStabilizate,
   insertsChecker,
+  findNReplaceLastElement,
 } from "../../utils/helpers";
 import question from "../../assets/question.svg";
 import "../../vendor/normalize.css";
@@ -48,12 +49,14 @@ function App() {
         const tab = el.split(" ")[0];
         return { table: tab, alias: cur };
       });
-      const uniqueObjects = arr.filter((obj, index, self) =>
-      index === self.findIndex((t) => (
-        t.table === obj.table && t.alias === obj.alias
-      ))
-    );
-      setFullTables(uniqueObjects.filter((el) => el.table.toLowerCase() !== "on"));
+      const uniqueObjects = arr.filter(
+        (obj, index, self) =>
+          index ===
+          self.findIndex((t) => t.table === obj.table && t.alias === obj.alias)
+      );
+      setFullTables(
+        uniqueObjects.filter((el) => el.table.toLowerCase() !== "on")
+      );
     }
 
     if (alls) {
@@ -69,7 +72,20 @@ function App() {
   }
 
   function setInputData(e) {
-    const arg = e.target.value;
+    let arg = e.target.value;
+    const start = arg
+      .replace(/from\s.*/, "")
+      .split(",")
+      .map((el) => {
+        if (el.trim().split(/\s/).length === 1) {
+          return el;
+        } else {
+          return el.trim().split(/\s/).slice(1).join(" ");
+        }
+      })
+      .join(", ");
+    const end = arg.replace(/.*\sfrom/, "");
+    arg = `${start} from ${end}`;
     setNamesDataSelectValue(arg);
     checkFullTables(arg);
     setNamesInputed(true);
@@ -128,6 +144,29 @@ function App() {
       }
       let newData;
       newData = [...tmp];
+
+      if (dataArray.length % newData.length !== 0) {
+        const up = Math.ceil(dataArray.length / newData.length);
+        const down = Math.floor(dataArray.length / newData.length);
+
+        if (dataArray.length + down === newData.length * up) {
+          const curIndex = newData.length - 1;
+          let newDataArray = JSON.parse(JSON.stringify(dataArray));
+
+          for (let i = curIndex * down; i > 0; i -= curIndex) {
+            const cur = dataArray[i].split(/\s/);
+            const check = findNReplaceLastElement(cur, dataArray[0]);
+            const ind = cur.findIndex((i) => i === check);
+            let newEl =
+            ind < 0 ? [dataArray[i].replace(check, "").trim(), check.trim()] :
+              ind === 0
+                ? [check, dataArray[i].replace(cur[ind], "")]
+                : [dataArray[i].replace(cur[ind], "").trim(), check.trim()];
+            newDataArray = [...newDataArray.slice(0, i), ...newEl, ...newDataArray.slice(i+1)]
+          }
+          setDataArray(newDataArray);
+        }
+      }
       setNamesArray(newData);
     }
   }, [
@@ -136,6 +175,7 @@ function App() {
     namesDataSelectValue,
     fullTables,
     aliases,
+    dataArray,
   ]);
 
   function setData(val) {
@@ -184,7 +224,7 @@ function App() {
       }
 
       if (
-        !tmpArr.every((el) => el === null || el === undefined || el === "null")
+        !tmpArr.every((el) => el === null || el === undefined || el.toLowerCase() === "null")
       ) {
         tmp.push(k);
       }
