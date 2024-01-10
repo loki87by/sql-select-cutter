@@ -25,7 +25,7 @@ function Alias(props) {
 
   function setData(val) {
     const arr = props.aliases.slice();
-    const array = val.split(',')
+    const array = val.split(/[,\s]/)
     let tmp = []
     for (let i = 0; i <= Math.ceil(array.length/2); i++) {
 
