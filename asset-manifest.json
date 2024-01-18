@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/sql-select-cutter/static/css/main.685a38f5.chunk.css",
-    "main.js": "/sql-select-cutter/static/js/main.d74c493b.chunk.js",
-    "main.js.map": "/sql-select-cutter/static/js/main.d74c493b.chunk.js.map",
+    "main.css": "/sql-select-cutter/static/css/main.b5ccc8b6.chunk.css",
+    "main.js": "/sql-select-cutter/static/js/main.904046e9.chunk.js",
+    "main.js.map": "/sql-select-cutter/static/js/main.904046e9.chunk.js.map",
     "runtime-main.js": "/sql-select-cutter/static/js/runtime-main.6428f379.js",
     "runtime-main.js.map": "/sql-select-cutter/static/js/runtime-main.6428f379.js.map",
     "static/js/2.ec64edb0.chunk.js": "/sql-select-cutter/static/js/2.ec64edb0.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.c8ae27cb.chunk.js": "/sql-select-cutter/static/js/3.c8ae27cb.chunk.js",
     "static/js/3.c8ae27cb.chunk.js.map": "/sql-select-cutter/static/js/3.c8ae27cb.chunk.js.map",
     "index.html": "/sql-select-cutter/index.html",
-    "static/css/main.685a38f5.chunk.css.map": "/sql-select-cutter/static/css/main.685a38f5.chunk.css.map",
+    "static/css/main.b5ccc8b6.chunk.css.map": "/sql-select-cutter/static/css/main.b5ccc8b6.chunk.css.map",
     "static/js/2.ec64edb0.chunk.js.LICENSE.txt": "/sql-select-cutter/static/js/2.ec64edb0.chunk.js.LICENSE.txt",
-    "static/media/close copy.69f538f3.svg": "/sql-select-cutter/static/media/close copy.69f538f3.svg",
-    "static/media/close.ec18e898.svg": "/sql-select-cutter/static/media/close.ec18e898.svg",
-    "static/media/copy copy.f0f823cc.svg": "/sql-select-cutter/static/media/copy copy.f0f823cc.svg",
-    "static/media/copy.9a9654e5.svg": "/sql-select-cutter/static/media/copy.9a9654e5.svg",
-    "static/media/eye.a0406346.svg": "/sql-select-cutter/static/media/eye.a0406346.svg",
+    "static/media/close copy.49da02e7.svg": "/sql-select-cutter/static/media/close copy.49da02e7.svg",
+    "static/media/close.f1e36ce6.svg": "/sql-select-cutter/static/media/close.f1e36ce6.svg",
+    "static/media/copy copy.fd047278.svg": "/sql-select-cutter/static/media/copy copy.fd047278.svg",
+    "static/media/copy.268a2418.svg": "/sql-select-cutter/static/media/copy.268a2418.svg",
+    "static/media/eye.3071cc9e.svg": "/sql-select-cutter/static/media/eye.3071cc9e.svg",
     "static/media/img1-min.c5680105.png": "/sql-select-cutter/static/media/img1-min.c5680105.png",
     "static/media/img2-min.2ec812f4.png": "/sql-select-cutter/static/media/img2-min.2ec812f4.png",
     "static/media/magnifier.1c751e03.svg": "/sql-select-cutter/static/media/magnifier.1c751e03.svg",
@@ -25,7 +25,7 @@
   "entrypoints": [
     "static/js/runtime-main.6428f379.js",
     "static/js/2.ec64edb0.chunk.js",
-    "static/css/main.685a38f5.chunk.css",
-    "static/js/main.d74c493b.chunk.js"
+    "static/css/main.b5ccc8b6.chunk.css",
+    "static/js/main.904046e9.chunk.js"
   ]
 }
