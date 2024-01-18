@@ -146,28 +146,31 @@ export const floatToDate = (float) => {
 };
 
 const maybeFloat = (num) => {
-  return typeof Date.parse(floatToDate(num)) === "number" && !isNaN(Date.parse(floatToDate(num)));
+  return (
+    typeof Date.parse(floatToDate(num)) === "number" &&
+    !isNaN(Date.parse(floatToDate(num)))
+  );
 };
 
-const findMaybeFloat = (first, last)=>{
-const fmf = maybeFloat(+first);
-const lmf = maybeFloat(+last);
-if (fmf && lmf) return null
-if (!fmf) return last
-if (!lmf) return first
-}
+const findMaybeFloat = (first, last) => {
+  const fmf = maybeFloat(+first);
+  const lmf = maybeFloat(+last);
+  if (fmf && lmf) return null;
+  if (!fmf) return last;
+  if (!lmf) return first;
+};
 
-const findNumberImpossible = (first, last)=>{
-const lni = isNaN(+first);
-const fni = isNaN(+last);
-if (!fni) return last
-if (!lni) return first
-}
+const findNumberImpossible = (first, last) => {
+  const lni = isNaN(+first);
+  const fni = isNaN(+last);
+  if (!fni) return last;
+  if (!lni) return first;
+};
 
 export const findNReplaceLastElement = (cur, zero) => {
   const isFirstString = isNaN(+zero);
   let isFirstMaybeFloat;
-  let current
+  let current;
   const first = cur[0];
   const last = cur[cur.length - 1];
   //const firstLength = zero.length;
@@ -176,15 +179,25 @@ export const findNReplaceLastElement = (cur, zero) => {
     isFirstMaybeFloat = maybeFloat(+zero);
 
     if (isFirstMaybeFloat && findMaybeFloat(first, last) !== null) {
-      current = findMaybeFloat(first, last)
-      return current
+      current = findMaybeFloat(first, last);
+      return current;
     } else {
-      current = findNumberImpossible(first, last)
-      return current
+      current = findNumberImpossible(first, last);
+      return current;
     }
   } else {
-    const match = cur.join(' ').match(/\s\p{Lu}/u)
-    const upperIndex = match ? match.index : -1
-    return cur.join(' ').slice(upperIndex).trim()
+    const match = cur.join(" ").match(/\s\p{Lu}/u);
+    const upperIndex = match ? match.index : -1;
+    if (match) {
+      return cur.join(" ").slice(upperIndex).trim();
+    } else {
+      if (findMaybeFloat(...cur)) {
+        return findMaybeFloat(...cur);
+      } else if (findNumberImpossible(...cur)) {
+        return findNumberImpossible(...cur);
+      } else {
+        return null;
+      }
+    }
   }
 };

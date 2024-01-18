@@ -23,6 +23,7 @@ function App() {
   const [isScriptRunned, setScriptRunned] = useState(false);
   const [isDataInputed, setDataInputed] = useState(false);
   const [namesInputed, setNamesInputed] = useState(false);
+  const [dataLengthChecked, setDataLengthChecked] = useState(false);
   const [namesArray, setNamesArray] = useState([]);
   const [result, setResult] = useState([]);
   const [dataArray, setDataArray] = useState([]);
@@ -35,8 +36,7 @@ function App() {
       .toUpperCase()
       .replace(/(\S+\s)*FROM/, "")
       .trim();
-
-    if (/[\s*\S*]* \(?\*\)?[ ,]/gi.test(str)) {
+    if (/\s?\(?\*\)?[,\s]/gi.test(str)) {
       const cleaned = tables
         .replace(/where[\s*\S*]*/gi, "")
         .split(/[\n\t]|\s{2,}/);
@@ -44,11 +44,13 @@ function App() {
       const cleaned3 = cleaned.map((i) =>
         i.replace(/([\s*\S*]*join )|(, )|( on [\s*\S*]*)/gi, "").trim()
       );
-      const arr = [...cleaned2, ...cleaned3].map((el) => {
-        const cur = el.split(" ")[1];
-        const tab = el.split(" ")[0];
-        return { table: tab, alias: cur };
-      });
+      const arr = [...cleaned2, ...cleaned3]
+        .filter((i) => i !== "")
+        .map((el) => {
+          const cur = el.split(" ")[1];
+          const tab = el.split(" ")[0];
+          return { table: tab, alias: cur };
+        });
       const uniqueObjects = arr.filter(
         (obj, index, self) =>
           index ===
@@ -74,7 +76,8 @@ function App() {
   function setInputData(e) {
     let arg = e.target.value;
     const start = arg
-      .replace(/from\s.*/, "")
+      .toLowerCase()
+      .replace(/from\s.*/gi, "")
       .split(",")
       .map((el) => {
         if (el.trim().split(/\s/).length === 1) {
@@ -84,7 +87,7 @@ function App() {
         }
       })
       .join(", ");
-    const end = arg.replace(/.*\sfrom/, "");
+    const end = arg.replace(/.*\sfrom/gi, "");
     arg = `${start} from ${end}`;
     setNamesDataSelectValue(arg);
     checkFullTables(arg);
@@ -139,7 +142,7 @@ function App() {
             }
           });
         });
-        const finString = namesDataSelectValue.replace(/\S+ \*[ ,]/gi, tables);
+        const finString = namesDataSelectValue.replace("*", tables);
         tmp = selectCutter(finString).filter((i) => /[^.]$/.test(i));
       }
       let newData;
@@ -149,21 +152,37 @@ function App() {
         const up = Math.ceil(dataArray.length / newData.length);
         const down = Math.floor(dataArray.length / newData.length);
 
-        if (dataArray.length + down === newData.length * up) {
-          const curIndex = newData.length - 1;
+        if (
+          !dataLengthChecked &&
+          dataArray.length + down >= newData.length * up
+        ) {
+          const curIndex = newData.length;
           let newDataArray = JSON.parse(JSON.stringify(dataArray));
 
-          for (let i = curIndex * down; i > 0; i -= curIndex) {
-            const cur = dataArray[i].split(/\s/);
-            const check = findNReplaceLastElement(cur, dataArray[0]);
-            const ind = cur.findIndex((i) => i === check);
-            let newEl =
-            ind < 0 ? [dataArray[i].replace(check, "").trim(), check.trim()] :
-              ind === 0
-                ? [check, dataArray[i].replace(cur[ind], "")]
-                : [dataArray[i].replace(cur[ind], "").trim(), check.trim()];
-            newDataArray = [...newDataArray.slice(0, i), ...newEl, ...newDataArray.slice(i+1)]
+          for (let i = curIndex * down - 1; i > 0; i -= curIndex) {
+            if (
+              /\s/.test(dataArray[i]) &&
+              (isNaN(+dataArray[i]) ||
+                dataArray[i].toLowerCase().trim() === "null")
+            ) {
+              const cur = dataArray[i].split(/\s/);
+              const check = findNReplaceLastElement(cur, dataArray[0]);
+              const ind = cur.findIndex((i) => i === check);
+              let newEl =
+                ind < 0
+                  ? [dataArray[i].replace(check, "").trim(), check.trim()]
+                  : ind === 0
+                  ? [check, dataArray[i].replace(cur[ind], "")]
+                  : [dataArray[i].replace(cur[ind], "").trim(), check.trim()];
+              console.log(newEl);
+              newDataArray = [
+                ...newDataArray.slice(0, i),
+                ...newEl,
+                ...newDataArray.slice(i + 1),
+              ];
+            }
           }
+          setDataLengthChecked(true);
           setDataArray(newDataArray);
         }
       }
@@ -176,6 +195,7 @@ function App() {
     fullTables,
     aliases,
     dataArray,
+    dataLengthChecked,
   ]);
 
   function setData(val) {
@@ -224,7 +244,9 @@ function App() {
       }
 
       if (
-        !tmpArr.every((el) => el === null || el === undefined || el.toLowerCase() === "null")
+        !tmpArr.every(
+          (el) => el === null || el === undefined || el.toLowerCase() === "null"
+        )
       ) {
         tmp.push(k);
       }
@@ -311,7 +333,6 @@ function App() {
               setFromTop={setFromTopHint}
             />
           ) : (
-            /* )) */
             ""
           )}
           <button
