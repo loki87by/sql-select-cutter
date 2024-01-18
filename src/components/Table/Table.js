@@ -9,6 +9,7 @@ import copy from "../../assets/copy.svg";
 import eye from "../../assets/eye.svg";
 import close from "../../assets/close copy.svg";
 import magnifier from "../../assets/magnifier.svg";
+import refresh from "../../assets/refresh.svg";
 import "./Table.css";
 
 function Table(props) {
@@ -330,6 +331,7 @@ function Table(props) {
           ))}
         </tbody>
       </table>
+      <img className="Table_refresh" src={refresh} alt='Refresh page' title='Сбросить всё' onClick={()=> {window.location.reload()}} />
       <Popup
         popupIsOpen={popupIsOpen}
         code={currentXml}

@@ -174,7 +174,6 @@ function App() {
                   : ind === 0
                   ? [check, dataArray[i].replace(cur[ind], "")]
                   : [dataArray[i].replace(cur[ind], "").trim(), check.trim()];
-              console.log(newEl);
               newDataArray = [
                 ...newDataArray.slice(0, i),
                 ...newEl,

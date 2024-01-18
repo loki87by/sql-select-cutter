@@ -16,5 +16,6 @@ body {
 #root {
   position: relative;
   width: 100%;
-  overflow: overlay;
+  max-height: 100vh;
+  overflow: visible;
 }
